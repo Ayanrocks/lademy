@@ -1,0 +1,33 @@
+{
+  "name": "lademy",
+  "version": "1.0.0",
+  "description": "Learning App",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "serve": "nodemon app.js",
+    "dev": "concurrently \"nodemon app.js\" \" npm run serve --prefix client \" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ayanrocks/lademy.git"
+  },
+  "keywords": [
+    "learning",
+    "education"
+  ],
+  "author": "Ayan banerjee",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ayanrocks/lademy/issues"
+  },
+  "homepage": "https://github.com/Ayanrocks/lademy#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.14"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0"
+  }
+}
