@@ -1,9 +1,7 @@
 const mongoose = require("mongoose"),
-  keys = require("../config/dev.js");
+  keys = require("../config/keys.js");
 
 mongoose.connect(
   keys.MongoURI,
   { useNewUrlParser: true }
 );
-
-
