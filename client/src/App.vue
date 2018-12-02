@@ -27,6 +27,16 @@ html {
 }
 
 section {
+  position: relative;
   height: 98vh;
 }
+
+.content {
+  margin-top: 30rem;
+  margin-bottom: -1rem;
+}
+
+
+
+
 </style>

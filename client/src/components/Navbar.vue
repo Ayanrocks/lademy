@@ -24,9 +24,10 @@ export default {};
 .navbar {
   background-color: #000;
   color: #fff;
-  position: fixed;
+  position: fixed !important;
   top: 0;
   left: 0;
+  right: 0;
   z-index: 9;
   font-family: "Poppins", sans-serif !important;
 }
