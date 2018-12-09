@@ -137,13 +137,6 @@ export default {
   width: 100%;
 }
 
-.main {
-  position: relative;
-  // width: 100%;
-  // margin-bottom: 75rem;
-  // z-index: 1000;
-}
-
 .logo {
   color: #fff;
   position: absolute;

@@ -44,24 +44,24 @@ nav .logo {
   position: static !important;
 
   a {
-      font-weight: 500;
+    font-weight: 500;
     font-family: "Poppins", sans-serif !important;
   }
 }
 
 nav .student,
 nav .teacher {
-    cursor: pointer;
-    padding: 0.5rem 3rem;
+  cursor: pointer;
+  padding: 0.5rem 3rem;
   border-radius: 50px;
-     text-align: center;
+  text-align: center;
   margin: 1.5rem 2rem;
   border: none;
   background-color: transparent;
 
   a {
-      padding: 0;
-      margin: 0;
+    padding: 0;
+    margin: 0;
   }
 }
 
