@@ -57,10 +57,10 @@ export default {
 
 
 <style lang="scss" scoped>
-.main {
-  padding-top: 20rem;
+.aboutus {
+  margin: 10rem auto;
+  position: static;
   height: 100vh;
-  margin-bottom: 80rem;
 }
 
 .logo a {
@@ -86,6 +86,7 @@ export default {
   letter-spacing: 2px;
   margin-top: 10rem;
   margin-left: -12rem;
+  text-align: justify;
 }
 
 //transitions

@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <div class="transition-bars">
+    <!-- <div class="transition-bars">
       <div class="transition-bar"></div>
       <div class="transition-bar"></div>
       <div class="transition-bar"></div>
-    </div>
+    </div>-->
     <transition :before-enter="beforeEnter" :enter="enter">
       <router-view/>
     </transition>
@@ -85,6 +85,12 @@ section {
   height: 98vh;
 }
 
+.main {
+  margin-bottom: 70rem;
+  z-index: 1;
+  background-color: #fff;
+}
+
 .content {
   margin-top: 30rem;
   margin-bottom: -1rem;
@@ -98,6 +104,7 @@ section {
   flex-direction: column;
   flex-wrap: wrap;
   z-index: 999;
+  opacity: 0;
 }
 
 .transition-bar {

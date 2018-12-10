@@ -34,8 +34,12 @@
 <style lang="scss" scoped>
 .page-footer {
   height: 75rem;
-  margin-top: -20rem;
   background-color: #000;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
 }
 
 .logo-footer {
