@@ -2,7 +2,7 @@
   <footer class="page-footer">
     <div class="container">
       <div class="content row">
-        <div class="col s4">
+        <div class="col">
           <h1 class="logo-footer">
             Lademy
             <sup>TM</sup>
@@ -10,14 +10,10 @@
           <p>2018-2019</p>
           <p>All Rights Reserved.</p>
         </div>
-        <div class="col s4">
-          <div class="social-link">
-            <ul>
-              <li></li>
-            </ul>
-          </div>
+        <div class="col">
+          <div class="social-link"></div>
         </div>
-        <div class="col s4 right">
+        <div class="col">
           <ul class="links">
             <router-link to="/aboutus" tag="li">About Us</router-link>
             <router-link to="/privacy-policy" tag="li">Privacy Policy</router-link>
@@ -40,6 +36,7 @@
   left: 0;
   right: 0;
   z-index: -1;
+  color: #fff;
 }
 
 .logo-footer {
@@ -65,5 +62,6 @@ p {
   font-size: 2rem;
   display: inline-block;
   cursor: pointer;
+  list-style: none;
 }
 </style>

@@ -5,7 +5,7 @@
       <div class="transition-bar"></div>
       <div class="transition-bar"></div>
     </div>-->
-    <transition :before-enter="beforeEnter" :enter="enter">
+    <transition>
       <router-view/>
     </transition>
   </div>
@@ -15,44 +15,7 @@
 var t1 = new TimelineMax();
 
 export default {
-  methods: {
-    beforeEnter(el) {
-      el.style.opacity = 0;
-      el.style.visibility = "hidden";
-    },
-    enter(el) {
-      el.style.opacity = 1;
-      el.style.visibility = "visible";
-
-      t1.to(
-        ".transition-bar:nth-of-type(1)",
-        2.6,
-        {
-          width: 0,
-          ease: Power2.easeInOut
-        },
-        0.8
-      )
-        .to(
-          ".transition-bar:nth-of-type(2)",
-          2.4,
-          {
-            width: 0,
-            ease: Power4.easeInOut
-          },
-          1.1
-        )
-        .to(
-          ".transition-bar:nth-of-type(3)",
-          2.6,
-          {
-            width: 0,
-            ease: Power3.easeInOut
-          },
-          0.95
-        );
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -77,7 +40,7 @@ a:visited {
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 62.5% !important;
 }
 
 section {

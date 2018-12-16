@@ -7,11 +7,11 @@
       <section class="home">
         <img class="home-cover" src="../assets/home_cover.png" alt="Cover">
         <div>
-          <div class="logo brand-logo">
+          <div class="logo">
             <router-link to="/" exact>Lademy</router-link>
           </div>
-          <div class="search right">
-            <i class="material-icons medium">search</i>
+          <div class="search">
+            <i class="material-icons md-36" :style="{fontSize: 3.6+'rem'}">search</i>
           </div>
         </div>
         <div class="container">
@@ -30,60 +30,54 @@
       </section>
       <section class="feature1">
         <div class="container">
-          <div class="row">
-            <div class="content">
-              <div class="col s6">
-                <h1 class="section_heading center-align">Any Time, Any Where</h1>
-                <p
-                  class="section_para center-align"
-                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam eaque itaque fugit, facilis culpa velit doloribus porro ex alias sed, atque pariatur perspiciatis. Eaque voluptatem quae suscipit aperiam, fuga molestias. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-              </div>
-              <div class="col s6 center-align">
-                <img src="../assets/eduvector.jpg" alt="Education logo">
-              </div>
+          <div class="row content">
+            <div class="col">
+              <h1 class="section_heading text-center">Any Time, Any Where</h1>
+              <p
+                class="section_para text-center"
+              >Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam eaque itaque fugit, facilis culpa velit doloribus porro ex alias sed, atque pariatur perspiciatis. Eaque voluptatem quae suscipit aperiam, fuga molestias. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            </div>
+            <div class="col text-center">
+              <img src="../assets/eduvector.jpg" alt="Education logo" class="vector-image1">
             </div>
           </div>
         </div>
       </section>
       <section class="feature2">
         <div class="container">
-          <div class="row">
-            <div class="content">
-              <div class="col s6 center-align">
-                <img src="../assets/statue.png" alt="Statue">
-              </div>
-              <div class="col s6">
-                <h1 class="section_heading center-align">Tests Makes Us Better Learners</h1>
-                <p
-                  class="section_para center-align"
-                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel blanditiis explicabo architecto, quis iste expedita dicta reprehenderit aliquid id enim est quaerat necessitatibus, magni, mollitia cum aliquam obcaecati nobis natus dignissimos reiciendis quidem?</p>
-              </div>
+          <div class="row content">
+            <div class="col-md-6 text-center">
+              <img src="../assets/statue.png" alt="Statue" class="vector-image2">
+            </div>
+            <div class="col-md-6">
+              <h1 class="section_heading text-center">Tests Makes Us Better Learners</h1>
+              <p
+                class="section_para text-center"
+              >Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel blanditiis explicabo architecto, quis iste expedita dicta reprehenderit aliquid id enim est quaerat necessitatibus, magni, mollitia cum aliquam obcaecati nobis natus dignissimos reiciendis quidem?</p>
             </div>
           </div>
         </div>
       </section>
       <section class="streams">
         <div class="container">
-          <div class="row">
-            <h2 class="section_heading center-align">We Cover Everything</h2>
-            <div class="content">
-              <div class="col s4">
-                <div class="card">
-                  <h1 class="card-title">Honours</h1>
-                  <div class="card-background honours"></div>
-                </div>
+          <h2 class="section_heading text-center">We Cover Everything</h2>
+          <div class="row content">
+            <div class="col">
+              <div class="card">
+                <h1 class="card-title">Honours</h1>
+                <div class="card-background honours"></div>
               </div>
-              <div class="col s4">
-                <div class="card">
-                  <h1 class="card-title">Engineering</h1>
-                  <div class="card-background engineering"></div>
-                </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <h1 class="card-title">Engineering</h1>
+                <div class="card-background engineering"></div>
               </div>
-              <div class="col s4">
-                <div class="card">
-                  <h1 class="card-title">Management</h1>
-                  <div class="card-background management"></div>
-                </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <h1 class="card-title">Management</h1>
+                <div class="card-background management"></div>
               </div>
             </div>
           </div>
@@ -128,12 +122,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.main {
-  margin-bottom: 70rem;
-  z-index: 1;
-  background-color: #fff;
-}
-
 .home {
   height: 98vh;
   position: relative;
@@ -168,7 +156,7 @@ export default {
 
 .heading {
   position: absolute;
-  top: 45%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #fff;
@@ -180,13 +168,23 @@ export default {
 
 .buttons {
   position: absolute;
-  top: 55%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #fff;
   display: flex;
   justify-content: space-between;
   width: 50rem;
+}
+
+.vector-image1 {
+  height: 40rem;
+  width: 40rem;
+}
+
+.vector-image2 {
+  width: 32.4rem;
+  height: 42.8rem;
 }
 
 .student,
@@ -216,6 +214,8 @@ export default {
 .section_heading {
   margin-top: 5rem;
   color: rgb(117, 117, 117);
+  font-size: 3.8rem;
+  font-weight: normal;
 }
 
 p.section_para {
@@ -236,7 +236,7 @@ p.section_para {
 
 .card-title {
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #fff;

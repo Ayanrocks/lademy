@@ -1,10 +1,10 @@
 <template>
-  <nav class="navbar">
+  <nav class="navbar align-middle">
     <div class="container">
-      <div class="logo brand-logo">
-        <router-link to="/" exact>Lademy</router-link>
+      <div class="logo">
+        <router-link to="/" tag="a" exact>Lademy</router-link>
       </div>
-      <div class="buttons right">
+      <div class="buttons pull-right mr-5">
         <button class="student">
           <router-link to="/student">Student</router-link>
         </button>
@@ -45,6 +45,7 @@ nav .logo {
 
   a {
     font-weight: 500;
+    font-size: 2.8rem;
     font-family: "Poppins", sans-serif !important;
   }
 }
