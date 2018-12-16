@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "564dc168be44d7e9a78e51c6bf707c08",
-    "url": "/img/statue.564dc168.png"
+    "revision": "e7cc305b0541e5488a28e66b0ef7233b",
+    "url": "/img/management.e7cc305b.jpg"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
@@ -12,16 +12,16 @@ self.__precacheManifest = [
     "url": "/js/chunk-vendors.3459f54d.js"
   },
   {
-    "revision": "0a4fb9ca8ad2f23504b4",
-    "url": "/js/app.2eacc38d.js"
+    "revision": "9207a8ad1da517e26ecf",
+    "url": "/js/app.d80662ec.js"
   },
   {
-    "revision": "fc1990f4144bce1244c3b5058e747201",
+    "revision": "10df6147be37101f18a6a61795410568",
     "url": "/index.html"
   },
   {
-    "revision": "e7cc305b0541e5488a28e66b0ef7233b",
-    "url": "/img/management.e7cc305b.jpg"
+    "revision": "564dc168be44d7e9a78e51c6bf707c08",
+    "url": "/img/statue.564dc168.png"
   },
   {
     "revision": "7d4f7f27263835ae18ed58856916b7ef",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/img/eduvector.4e8a7bc4.jpg"
   },
   {
-    "revision": "0a4fb9ca8ad2f23504b4",
-    "url": "/css/app.493f28b6.css"
+    "revision": "9207a8ad1da517e26ecf",
+    "url": "/css/app.281d8a9f.css"
   }
 ];
