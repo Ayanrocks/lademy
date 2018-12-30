@@ -10,6 +10,7 @@ const Student = require("../models/Students");
 module.exports = app => {
   // Register a student route
   app.post("/student/signup", (req, res) => {
+    // @TODO refactor code to support custom auth function
     //Register the student to the DB
     Student.register(
       new Student({ username: req.body.username }),

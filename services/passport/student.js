@@ -17,4 +17,5 @@ passport.deserializeUser((id, done) => {
   Students.findById();
 });
 
+// @TODO add custom authentiocation fucntion to hasdh password and store data accordingly
 passport.use(new localStrategy(Students.authenticate()));

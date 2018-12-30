@@ -14,6 +14,7 @@ const teacherSchema = new Schema({
   }
 });
 
+// @TODO remove plm and add custom auth
 teacherSchema.plugin(plm);
 
 module.exports = mongoose.model("Teachers", teacherSchema);
