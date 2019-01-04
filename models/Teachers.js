@@ -1,6 +1,10 @@
+/*
+ * Teacher Schema file
+ *
+ */
+
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const plm = require("passport-local-mongoose");
 
 const teacherSchema = new Schema({
   teacherID: Number,
@@ -13,8 +17,5 @@ const teacherSchema = new Schema({
     ref: "Lectures"
   }
 });
-
-// @TODO remove plm and add custom auth
-teacherSchema.plugin(plm);
 
 module.exports = mongoose.model("Teachers", teacherSchema);

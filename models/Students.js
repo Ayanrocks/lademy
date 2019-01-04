@@ -1,9 +1,21 @@
+/*
+ * Student Model File
+ *
+ */
+
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const plm = require("passport-local-mongoose");
+
+// Student Schema
 const studentSchema = new Schema({
-  studentID: Number,
+  studentID: String,
+  profilePic: String,
   name: String,
+  username: String,
+  password: String,
+  salt: String,
+  email: String,
+  phone: Number,
   age: Number,
   stream: String,
   gender: String,
@@ -12,9 +24,5 @@ const studentSchema = new Schema({
     ref: "Lectures"
   }
 });
-
-//@TODO remove plm
-
-studentSchema.plugin(plm);
 
 module.exports = mongoose.model("Students", studentSchema);
