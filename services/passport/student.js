@@ -6,7 +6,7 @@
 //Dependencies
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
-const googleStrategy = require("passport-google-oauth2").Strategy;
+const googleStrategy = require("passport-google-oauth20").Strategy;
 const facebookStrategy = require("passport-facebook").Strategy;
 const Students = require("../../models/Students");
 const bcrypt = require("bcrypt");
@@ -48,29 +48,34 @@ passport.use(
         "520010618723-hblvljb1cf0mipppc2e3sgi1nr5marsj.apps.googleusercontent.com",
       clientSecret: "ZvwDh7AKv-l0CbJexIjPKczf",
       callbackURL: "/auth/google/callback",
-      proxy: false
+      proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
-      const existingUser = await User.findOne({
-        email: profile.emails[0].value
-      });
-      if (existingUser) {
-        return done(null, existingUser);
+      try {
+        const existingUser = await Students.findOne({
+          email: profile.emails[0].value
+        });
+        if (existingUser) {
+          return done(null, existingUser);
+        }
+        console.log(profile);
+        const student = await new Students({
+          studentID: uuid(),
+          profilePic: profile.picture,
+          name: profile.displayName,
+          username: "",
+          age: "",
+          gender: profile.gender,
+          email: profile.emails[0].value,
+          phone: "",
+          stream: "",
+          lectures: null
+        }).save();
+        done(null, student);
+      } catch (e) {
+        console.log(e);
+        done(e, null, "Server Error");
       }
-      console.log(profile);
-      const user = await new User({
-        studentID: uuid(),
-        profilePic: profile.picture,
-        name: profile.displayName,
-        username: profile.name,
-        age: "",
-        gender: profile.gender,
-        email: profile.emails[0].value,
-        phone: "",
-        stream: "",
-        lectures: ""
-      }).save();
-      done(null, user);
     }
   )
 );
@@ -80,26 +85,37 @@ passport.use(
 passport.use(
   new facebookStrategy(
     {
-      clientID: "<@TODO Add your credentials>",
-      clientSecret: "<@TODO Add your credentials>",
+      clientID: "585576495199660",
+      clientSecret: "a88fed9831425d5de789afc1e8ca8a35",
       callbackURL: "/auth/facebook/callback",
       enableProof: true,
-      profileFields: ["id", "emails", "name", "birthday"]
+      profileFields: ["id", "email", "gender", "name", "birthday"]
     },
     async (accessToken, refreshToken, profile, done) => {
-      const existingUser = await User.findOne({
-        email: profile.emails[0].value
-      });
-      if (existingUser) {
-        return done(null, existingUser);
+      console.log(profile);
+      try {
+        const existingUser = await Students.findOne({
+          email: profile.emails[0].value
+        });
+        if (existingUser) {
+          return done(null, existingUser, "User found");
+        }
+        const student = await new Students({
+          studentID: uuid(),
+          profilePic: profile.picture,
+          name: profile.name.givenName + " " + profile.name.familyName,
+          username: "",
+          age: "",
+          gender: profile.gender,
+          email: profile.emails[0].value,
+          phone: "",
+          stream: "",
+          lectures: null
+        }).save();
+        done(null, student);
+      } catch (e) {
+        done(e, null, "Error 500");
       }
-      const user = await new User({
-        firstName: profile.name.givenName,
-        lastName: profile.name.familyName,
-        email: profile.emails[0].value,
-        DOB: profile.birthday
-      }).save();
-      done(null, user);
     }
   )
 );

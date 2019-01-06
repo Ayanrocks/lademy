@@ -7,9 +7,7 @@
       <section class="home">
         <img class="home-cover" src="../assets/home_cover.png" alt="Cover">
         <div>
-          <div class="logo">
-            <router-link to="/" exact>Lademy</router-link>
-          </div>
+          <Logo color="white"/>
           <div class="search">
             <i class="material-icons md-36" :style="{fontSize: 3.6+'rem'}">search</i>
           </div>
@@ -89,11 +87,13 @@
 </template>
 
 <script>
+import Logo from "../components/Logo";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 export default {
   name: "Home",
   components: {
+    Logo,
     Navbar,
     Footer
   },
@@ -129,19 +129,6 @@ export default {
 
 .home-cover {
   width: 100%;
-}
-
-.logo {
-  color: #fff;
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  transform: translate(-10%, -10%);
-  font-size: 3.2rem !important;
-  a {
-    font-weight: 500;
-    font-family: "Poppins", sans-serif;
-  }
 }
 
 .search {
@@ -209,13 +196,6 @@ export default {
 .content {
   margin-top: 30rem;
   margin-bottom: -1rem;
-}
-
-.section_heading {
-  margin-top: 5rem;
-  color: rgb(117, 117, 117);
-  font-size: 3.8rem;
-  font-weight: normal;
 }
 
 p.section_para {

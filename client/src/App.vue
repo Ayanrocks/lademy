@@ -59,6 +59,13 @@ section {
   margin-bottom: -1rem;
 }
 
+.section_heading {
+  margin-top: 5rem;
+  color: rgb(117, 117, 117);
+  font-size: 3.8rem;
+  font-weight: normal;
+}
+
 .transition-bars {
   position: absolute;
   display: flex;
