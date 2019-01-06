@@ -6,14 +6,17 @@
         <div class="row">
           <h1 class="page__heading">Login</h1>
           <div class="login col-sm">
-            <div class="error-message" v-if="error">{{error}}</div>
+            <transition name="slide">
+              <div class="error-message" :class="{'bg-danger': error,}" v-if="error">{{msg}}</div>
+              <div class="error-message" :class="{'bg-success': !error,}" v-show="msg">{{msg}}</div>
+            </transition>
             <form>
               <div class="form-group">
-                <input type="email" v-model="email" placeholder="Enter your Email">
+                <input type="username" v-model="username" placeholder="Enter your Username">
                 <input type="password" v-model="password" placeholder="Enter your password">
                 <router-link
                   to="/student/forgot"
-                  style="margin-left: -14rem; font-size: 1.9rem; color: #000"
+                  style="margin-left: -24rem; font-size: 1.9rem; color: #000"
                 >Forget Password?</router-link>
                 <button class="btn submit" @click.prevent="login">
                   <i class="material-icons md-48">keyboard_arrow_right</i>
@@ -36,9 +39,10 @@ import axios from "axios";
 export default {
   data() {
     return {
-      email: "",
+      username: "",
       password: "",
-      error: ""
+      msg: "",
+      error: false
     };
   },
   components: {
@@ -47,18 +51,22 @@ export default {
   },
   methods: {
     login() {
-      console.log(this.email, this.password);
+      console.log(this.username, this.password);
       axios
         .post("/student/login", {
-          username: this.email,
+          username: this.username,
           password: this.password
         })
         .then(res => {
-          console.log(res);
-          this.error = res.body.status;
+          this.msg = res.data.status;
+          setTimeout(() => {
+            this.msg = "";
+          }, 4000);
         })
         .catch(err => {
           console.log(err);
+          this.error = true;
+          this.msg = "Unauthorized";
         });
     }
   }
@@ -77,15 +85,23 @@ export default {
 
 .login {
   margin-top: 30rem;
+  margin-left: 12rem;
 }
 
 .error-message {
-  margin-top: 7rem;
+  margin-top: 2rem;
+  font-size: 4rem;
+  background-color: #0f0;
+  margin-left: -20rem;
+  width: 50rem;
+  text-align: center;
+  color: #fff;
+  border-radius: 10rem;
 }
 
 input {
   display: block;
-  margin: 4rem -15rem;
+  margin: 4rem -25rem;
   width: 60rem;
   height: 5rem;
   border-radius: 5rem;
@@ -98,13 +114,54 @@ input {
 
 .submit {
   background-color: #00f;
-  margin-left: 38rem;
+  margin-left: 37.5rem;
   padding: 1rem;
   border-radius: 100rem;
   width: 6rem;
   color: #fff;
   i {
     font-size: 3rem;
+  }
+}
+
+//transitions
+
+.slide-enter {
+  opacity: 0;
+  transform-origin: top;
+}
+
+.slide-enter-active {
+  animation: slideDn 0.5s forwards;
+  transform-origin: top;
+}
+
+.slide-leave {
+  opacity: 0;
+}
+.slide-leave-active {
+  animation: slideUp 0.5s forwards;
+}
+
+@keyframes slideDn {
+  from {
+    opacity: 0;
+    height: 0;
+  }
+  to {
+    opacity: 1;
+    height: 6rem;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    height: 6rem;
+  }
+  to {
+    opacity: 0;
+    height: 0;
   }
 }
 </style>
