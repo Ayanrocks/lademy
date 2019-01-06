@@ -1,22 +1,22 @@
 self.__precacheManifest = [
   {
-    "revision": "e7cc305b0541e5488a28e66b0ef7233b",
-    "url": "/img/management.e7cc305b.jpg"
+    "revision": "7d4f7f27263835ae18ed58856916b7ef",
+    "url": "/img/honours.7d4f7f27.jpg"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
     "url": "/robots.txt"
   },
   {
-    "revision": "0fa8e005cfd97af967b6",
-    "url": "/js/chunk-vendors.3459f54d.js"
+    "revision": "1d1d66c75335f6dc759f",
+    "url": "/js/chunk-vendors.d03f32b9.js"
   },
   {
-    "revision": "9207a8ad1da517e26ecf",
-    "url": "/js/app.d80662ec.js"
+    "revision": "0ec2be38e10e79d61848",
+    "url": "/js/app.a8f5e158.js"
   },
   {
-    "revision": "10df6147be37101f18a6a61795410568",
+    "revision": "e1f9c07b92681f6b3f922c9f50d82a58",
     "url": "/index.html"
   },
   {
@@ -24,8 +24,8 @@ self.__precacheManifest = [
     "url": "/img/statue.564dc168.png"
   },
   {
-    "revision": "7d4f7f27263835ae18ed58856916b7ef",
-    "url": "/img/honours.7d4f7f27.jpg"
+    "revision": "e7cc305b0541e5488a28e66b0ef7233b",
+    "url": "/img/management.e7cc305b.jpg"
   },
   {
     "revision": "af5b3f1ff29e2ddc3af556194c13e5ed",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/img/eduvector.4e8a7bc4.jpg"
   },
   {
-    "revision": "9207a8ad1da517e26ecf",
-    "url": "/css/app.281d8a9f.css"
+    "revision": "0ec2be38e10e79d61848",
+    "url": "/css/app.bfbd2c9b.css"
   }
 ];
