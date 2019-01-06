@@ -11,6 +11,7 @@ const facebookStrategy = require("passport-facebook").Strategy;
 const Students = require("../../models/Students");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid/v4");
+const keys = require("../../config/keys");
 
 passport.serializeUser((student, done) => {
   done(null, student);
@@ -44,9 +45,8 @@ passport.use(
 passport.use(
   new googleStrategy(
     {
-      clientID:
-        "520010618723-hblvljb1cf0mipppc2e3sgi1nr5marsj.apps.googleusercontent.com",
-      clientSecret: "ZvwDh7AKv-l0CbJexIjPKczf",
+      clientID: keys.googleClientID,
+      clientSecret: keys.googleClientSecret,
       callbackURL: "/auth/google/callback",
       proxy: true
     },
@@ -85,8 +85,8 @@ passport.use(
 passport.use(
   new facebookStrategy(
     {
-      clientID: "585576495199660",
-      clientSecret: "a88fed9831425d5de789afc1e8ca8a35",
+      clientID: keys.facebookClientID,
+      clientSecret: keys.facebookClientSecret,
       callbackURL: "/auth/facebook/callback",
       enableProof: true,
       profileFields: ["id", "email", "gender", "name", "birthday"]
