@@ -24,9 +24,13 @@ module.exports = app => {
               bcrypt.hash(req.body.password, salt, (err, hash) => {
                 if (!err && hash) {
                   const studentID = uuid();
+                  const profilePic =
+                    req.body.gender === "Male"
+                      ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZVDerql1PFrLlwTV-S3KBWuXx2loziJGcNd_jxVNmVBXZy4boxA"
+                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0byTDjwOUPqhChtmb35ug_iaCSWE6nmimWzDfgmNXpUbjkiMzJQ";
                   const studentDetails = {
                     studentID,
-                    profilePic: "",
+                    profilePic,
                     username: req.body.username,
                     password: hash,
                     salt,

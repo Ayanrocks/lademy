@@ -8,9 +8,8 @@
           <div class="login col-sm">
             <transition name="slide">
               <div class="error-message" :class="{'bg-danger': error,}" v-if="error">{{msg}}</div>
-              <div class="error-message" :class="{'bg-success': !error,}" v-show="msg">{{msg}}</div>
             </transition>
-            <form>
+            <form v-if="login">
               <div class="form-group">
                 <input type="username" v-model="username" placeholder="Enter your Username">
                 <input type="password" v-model="password" placeholder="Enter your password">
@@ -23,7 +22,35 @@
                 </button>
               </div>
             </form>
+            <form v-else>
+              <div class="form-group">
+                <input
+                  type="username"
+                  v-model="username"
+                  placeholder="Enter your Username"
+                  required
+                >
+                <input
+                  type="password"
+                  v-model="password"
+                  placeholder="Enter your password"
+                  required
+                >
+                <input type="text" v-model="name" placeholder="Enter your Name" required>
+                <input type="number" v-model="age" placeholder="Enter your age" required>
+                <select name="gender" id="gender" class="form-group" required>
+                  <option selected disabled>Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                
+                <button class="btn submit" @click.prevent="signup">
+                  <i class="material-icons md-48">keyboard_arrow_right</i>
+                </button>
+              </div>
+            </form>
           </div>
+          <div class="col-sm form__switcher" @click="login = !login">Don't Have an account? Join US.</div>
         </div>
       </div>
     </section>
@@ -41,6 +68,9 @@ export default {
     return {
       username: "",
       password: "",
+      name: "",
+      age: "",
+      login: true,
       msg: "",
       error: false
     };
@@ -58,10 +88,7 @@ export default {
           password: this.password
         })
         .then(res => {
-          this.msg = res.data.status;
-          setTimeout(() => {
-            this.msg = "";
-          }, 4000);
+          console.log(res);
         })
         .catch(err => {
           console.log(err);
@@ -108,8 +135,14 @@ input {
   background-color: #fff;
   border: 1px solid rgb(187, 187, 187);
   font-size: 2.8rem;
-  padding: 2rem;
+  padding: 1rem;
   color: rgb(179, 179, 179);
+}
+
+.form__switcher {
+  font-size: 3rem;
+  margin-top: 10rem;
+  width: 50rem;
 }
 
 .submit {
