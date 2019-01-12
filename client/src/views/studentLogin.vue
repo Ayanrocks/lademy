@@ -9,6 +9,9 @@
             <transition name="slide">
               <div class="error-message" :class="{'bg-danger': error,}" v-if="error">{{msg}}</div>
             </transition>
+            <transition name="slide">
+              <div class="success-message" :class="{'bg-success': success,}" v-if="success">{{msg}}</div>
+            </transition>
             <form v-if="login__form">
               <div class="form-group">
                 <input type="username" v-model="login_username" placeholder="Enter your Username">
@@ -92,7 +95,8 @@ export default {
       gender: "Select Gender",
       login__form: true,
       msg: "",
-      error: false
+      error: false,
+      success: false
     };
   },
   components: {
@@ -110,6 +114,9 @@ export default {
       this.error = true;
       this.msg = msg;
       this.removeError();
+    },
+    createSuccess(msg) {
+      (this.success = true), (this.msg = msg);
     },
     validator() {
       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -135,19 +142,20 @@ export default {
       }
     },
     login() {
-      console.log(this.username, this.password);
-      axios
-        .post("/student/login", {
-          username: this.username,
-          password: this.password
-        })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-          this.createError("Unauthorized");
-        });
+      if (this.username && this.password) {
+        axios
+          .post("/student/login", {
+            username: this.username,
+            password: this.password
+          })
+          .then(res => {})
+          .catch(err => {
+            console.log(err);
+            this.createError("Unauthorized");
+          });
+      } else {
+        this.createError("Please enter Username/Password");
+      }
     },
     signup() {
       if (
@@ -157,7 +165,9 @@ export default {
         this.age &&
         this.gender
       ) {
-        this.validator();
+        if (this.validator()) {
+          this.createSuccess("Verification Email Sent");
+        }
       } else {
         this.createError("Please fill all the fields");
       }
@@ -184,7 +194,8 @@ export default {
   margin-left: 12rem;
 }
 
-.error-message {
+.error-message,
+.success-message {
   margin-top: 2rem;
   font-size: 2rem;
   background-color: #0f0;

@@ -8,6 +8,10 @@ const passport = require("passport");
 const Student = require("../models/Students");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid/v4");
+const request = require("request");
+const keys = require("../config/keys");
+
+var emailVerificationToken = "";
 
 module.exports = app => {
   // Register a student route
@@ -64,6 +68,72 @@ module.exports = app => {
         }
       }
     );
+  });
+
+  app.post("/student/verify", (req, res) => {
+    emailVerificationToken = uuid();
+    console.log(emailVerificationToken);
+    htmlcontent = `<!DOCTYPE html><html lang="en"> <body> <h1 style="text-align: center; margin: 50px auto">Lademy verification</h1> <div style="margin: 50px auto; text-align: center"> <p> Enter the below link to the browser or <a href="https://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >Click Here</a >. <strong>Link will expire in 15 minutes</strong> </p><div> <a href="https://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >https://lademy.herokuapp.com/student/verification/${emailVerificationToken}</a > </div></div></body></html>`;
+    const options = {
+      method: "POST",
+      url: "https://api.sendgrid.com/v3/mail/send",
+      headers: {
+        "content-type": "application/json",
+        authorization: "Bearer " + keys.sendgridAPIKey
+      },
+      body: {
+        personalizations: [
+          {
+            to: [{ email: req.body.email, name: req.body.name }],
+            subject: "Email Verification"
+          }
+        ],
+        content: [
+          {
+            type: "text/plain",
+            value: htmlcontent
+          },
+          {
+            type: "text/html",
+            value: htmlcontent
+          }
+        ],
+        from: {
+          email: "no-reply@lademy.com",
+          name: "Lademy Customer Support"
+        },
+        reply_to: {
+          email: "lademy.official@gmail.com",
+          name: "Lademy Support"
+        }
+      },
+      json: true
+    };
+    request.post(options, (err, response, body) => {
+      if (!err) {
+        console.log(emailVerificationToken);
+        console.log("Success send");
+        setTimeout(() => {
+          emailVerificationToken = "";
+          console.log("Token Expired");
+        }, 1000 * 60 * 15);
+        console.log(body);
+        res.status(200).send("OK");
+      } else {
+        console.log(err);
+        res.status("500").send("Server Error");
+      }
+    });
+  });
+
+  app.get("/student/verification/:emailVerificationToken", (req, res) => {
+    if (req.params.emailVerificationToken == emailVerificationToken) {
+      emailVerificationToken = "";
+      console.log("Success, Token Expire");
+      res.status(200);
+    } else {
+      res.send("Token Expired");
+    }
   });
 
   // Google login route

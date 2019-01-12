@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "3bf5930bec249de464b81e36af4989e7",
-    "url": "/img/engineering.3bf5930b.jpg"
+    "revision": "7d4f7f27263835ae18ed58856916b7ef",
+    "url": "/img/honours.7d4f7f27.jpg"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
@@ -12,11 +12,11 @@ self.__precacheManifest = [
     "url": "/js/chunk-vendors.f68d836d.js"
   },
   {
-    "revision": "8dd7decee6d38dad2f36",
-    "url": "/js/app.9fd636fb.js"
+    "revision": "05908d503345bcf83543",
+    "url": "/js/app.5e0969b3.js"
   },
   {
-    "revision": "2b5c38081b4c938e2a84ad6081f54ae5",
+    "revision": "552315c7a34c73cbfa6a6ff696718ab2",
     "url": "/index.html"
   },
   {
@@ -28,19 +28,19 @@ self.__precacheManifest = [
     "url": "/img/management.e7cc305b.jpg"
   },
   {
-    "revision": "7d4f7f27263835ae18ed58856916b7ef",
-    "url": "/img/honours.7d4f7f27.jpg"
-  },
-  {
     "revision": "af5b3f1ff29e2ddc3af556194c13e5ed",
     "url": "/img/home_cover.af5b3f1f.png"
+  },
+  {
+    "revision": "3bf5930bec249de464b81e36af4989e7",
+    "url": "/img/engineering.3bf5930b.jpg"
   },
   {
     "revision": "4e8a7bc49b8d58070caec4726839769e",
     "url": "/img/eduvector.4e8a7bc4.jpg"
   },
   {
-    "revision": "8dd7decee6d38dad2f36",
-    "url": "/css/app.8f57564e.css"
+    "revision": "05908d503345bcf83543",
+    "url": "/css/app.8e435a5b.css"
   }
 ];
