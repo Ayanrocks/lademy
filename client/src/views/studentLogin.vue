@@ -9,18 +9,20 @@
             <transition name="slide">
               <div class="error-message" :class="{'bg-danger': error,}" v-if="error">{{msg}}</div>
             </transition>
-            <form v-if="login">
+            <form v-if="login__form">
               <div class="form-group">
-                <input type="username" v-model="username" placeholder="Enter your Username">
-                <input type="password" v-model="password" placeholder="Enter your password">
-                <router-link
-                  to="/student/forgot"
-                  style="margin-left: -24rem; font-size: 1.9rem; color: #000"
-                >Forget Password?</router-link>
-                <button class="btn submit" @click.prevent="login">
-                  <i class="material-icons md-48">keyboard_arrow_right</i>
-                </button>
+                <input type="username" v-model="login_username" placeholder="Enter your Username">
               </div>
+              <div class="form-group">
+                <input type="password" v-model="login_password" placeholder="Enter your password">
+              </div>
+              <router-link
+                to="/student/forgot"
+                style="margin-left: -24rem; font-size: 1.9rem; color: #000"
+              >Forget Password?</router-link>
+              <button class="btn submit" @click.prevent="login">
+                <i class="material-icons md-48">keyboard_arrow_right</i>
+              </button>
             </form>
             <form v-else>
               <div class="form-group">
@@ -30,27 +32,41 @@
                   placeholder="Enter your Username"
                   required
                 >
+              </div>
+              <div class="form-group">
                 <input
                   type="password"
                   v-model="password"
                   placeholder="Enter your password"
                   required
                 >
+              </div>
+              <div class="form-group">
+                <input type="email" v-model="email" placeholder="Enter you Email">
+              </div>
+              <div class="form-group">
                 <input type="text" v-model="name" placeholder="Enter your Name" required>
+              </div>
+              <div class="form-group">
                 <input type="number" v-model="age" placeholder="Enter your age" required>
-                <select name="gender" id="gender" class="form-group" required>
+              </div>
+              <div class="form-group">
+                <select name="gender" v-model="gender" class="form-group" required>
                   <option selected disabled>Select Gender</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select>
-                
-                <button class="btn submit" @click.prevent="signup">
-                  <i class="material-icons md-48">keyboard_arrow_right</i>
-                </button>
               </div>
+
+              <button class="btn submit" style="margin-left: 29rem" @click.prevent="signup">
+                <i class="material-icons md-48">keyboard_arrow_right</i>
+              </button>
             </form>
           </div>
-          <div class="col-sm form__switcher" @click="login = !login">Don't Have an account? Join US.</div>
+          <div
+            class="col-sm form__switcher"
+            @click="login__form = !login__form"
+          >Don't Have an account? Join US.</div>
         </div>
       </div>
     </section>
@@ -66,11 +82,15 @@ import axios from "axios";
 export default {
   data() {
     return {
+      login_username: "",
+      login_password: "",
       username: "",
       password: "",
+      email: "",
       name: "",
-      age: "",
-      login: true,
+      age: null,
+      gender: "Select Gender",
+      login__form: true,
       msg: "",
       error: false
     };
@@ -80,6 +100,40 @@ export default {
     GoogleButton
   },
   methods: {
+    removeError() {
+      setTimeout(() => {
+        this.msg = "";
+        this.error = false;
+      }, 5000);
+    },
+    createError(msg) {
+      this.error = true;
+      this.msg = msg;
+      this.removeError();
+    },
+    validator() {
+      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      this.age = parseInt(this.age);
+      if (reg.test(this.email)) {
+        if (this.password.length >= 6) {
+          if (typeof this.age == "number" && this.age > 0 && this.age < 50) {
+            if (typeof this.name == "string") {
+              return true;
+            } else {
+              this.createError("Please enter a valid name with no numbers");
+            }
+          } else {
+            this.createError("Please enter a valid age.");
+          }
+        } else {
+          this.createError(
+            "Please enter a strong password with more than six characters"
+          );
+        }
+      } else {
+        this.createError("Please enter a valid email");
+      }
+    },
     login() {
       console.log(this.username, this.password);
       axios
@@ -92,9 +146,21 @@ export default {
         })
         .catch(err => {
           console.log(err);
-          this.error = true;
-          this.msg = "Unauthorized";
+          this.createError("Unauthorized");
         });
+    },
+    signup() {
+      if (
+        this.username &&
+        this.password &&
+        this.name &&
+        this.age &&
+        this.gender
+      ) {
+        this.validator();
+      } else {
+        this.createError("Please fill all the fields");
+      }
     }
   }
 };
@@ -102,8 +168,11 @@ export default {
 
 
 <style lang="scss" scoped>
+* {
+  height: 100%;
+}
 .page__heading {
-  margin-top: 25rem;
+  margin-top: 15rem;
   letter-spacing: 2px;
   font-size: 4rem;
   font-weight: 300;
@@ -111,13 +180,13 @@ export default {
 }
 
 .login {
-  margin-top: 30rem;
+  margin-top: 20rem;
   margin-left: 12rem;
 }
 
 .error-message {
   margin-top: 2rem;
-  font-size: 4rem;
+  font-size: 2rem;
   background-color: #0f0;
   margin-left: -20rem;
   width: 50rem;
@@ -126,28 +195,29 @@ export default {
   border-radius: 10rem;
 }
 
-input {
+input,
+select {
   display: block;
-  margin: 4rem -25rem;
+  margin: 3rem -25rem;
   width: 60rem;
-  height: 5rem;
   border-radius: 5rem;
   background-color: #fff;
   border: 1px solid rgb(187, 187, 187);
-  font-size: 2.8rem;
+  font-size: 2rem;
   padding: 1rem;
   color: rgb(179, 179, 179);
 }
 
 .form__switcher {
-  font-size: 3rem;
-  margin-top: 10rem;
+  font-size: 2.8rem;
+  margin: 45rem 0 45rem 5rem;
   width: 50rem;
+  cursor: pointer;
 }
 
 .submit {
   background-color: #00f;
-  margin-left: 37.5rem;
+  margin-left: 39rem;
   padding: 1rem;
   border-radius: 100rem;
   width: 6rem;
@@ -183,14 +253,14 @@ input {
   }
   to {
     opacity: 1;
-    height: 6rem;
+    height: 3rem;
   }
 }
 
 @keyframes slideUp {
   from {
     opacity: 1;
-    height: 6rem;
+    height: 3rem;
   }
   to {
     opacity: 0;
