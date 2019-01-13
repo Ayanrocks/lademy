@@ -1,13 +1,9 @@
 <template>
   <div id="app">
-    <!-- <div class="transition-bars">
-      <div class="transition-bar"></div>
-      <div class="transition-bar"></div>
-      <div class="transition-bar"></div>
-    </div>-->
-    <transition>
-      <router-view/>
-    </transition>
+    <router-view v-if="desktop"/>
+    <div v-else>
+      <h1 style="text-align: center; margin: 10rem 0; font-size= 3.2rem">Not Available</h1>
+    </div>
   </div>
 </template>
 
@@ -15,7 +11,17 @@
 var t1 = new TimelineMax();
 
 export default {
-  methods: {}
+  data() {
+    return {
+      desktop: true
+    };
+  },
+  methods: {},
+  created() {
+    if (window.screen.width <= 1024) {
+      this.desktop = false;
+    }
+  }
 };
 </script>
 
@@ -83,5 +89,17 @@ section {
   flex-grow: 3;
   transform: scaleX(1);
   transform-origin: left;
+}
+
+// !Media Queries
+@media only screen and (max-width: 1366px) {
+  html {
+    font-size: 42.5% !important;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  html {
+    font-size: 32.5% !important;
+  }
 }
 </style>

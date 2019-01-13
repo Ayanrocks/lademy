@@ -74,39 +74,28 @@ module.exports = app => {
   app.post("/student/verify", (req, res) => {
     emailVerificationToken = uuid();
     console.log(emailVerificationToken);
-    htmlcontent = `<!DOCTYPE html><html lang="en"> <body> <h1 style="text-align: center; margin: 50px auto">Lademy verification</h1> <div style="margin: 50px auto; text-align: center"> <p> Enter the below link to the browser or <a href="http://localhost:5000/student/verification/${emailVerificationToken}" >Click Here</a >. <strong>Link will expire in 15 minutes</strong> </p><div> <a href="https://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >https://lademy.herokuapp.com/student/verification/${emailVerificationToken}</a > </div></div></body></html>`;
+    htmlcontent = `<!DOCTYPE html><html lang="en"> <body> <h1 style="text-align: center; margin: 50px auto">Lademy verification</h1> <div style="margin: 50px auto; text-align: center"> <p> Enter the below link to the browser or <a href="http://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >Click Here</a >. <strong>Link will expire in 15 minutes</strong> </p><div> <a href="https://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >https://lademy.herokuapp.com/student/verification/${emailVerificationToken}</a > </div></div></body></html>`;
     const options = {
       method: "POST",
-      url: "https://api.sendgrid.com/v3/mail/send",
+      url: "https://api.mailjet.com/v3.1/send",
       headers: {
-        "content-type": "application/json",
-        authorization: "Bearer " + keys.sendgridAPIKey
+        Authorization:
+          "Basic N2I5ZmIxYTQzNjE2NzkxNzIxNGJiM2Y1NmI3OWM3Yjk6MmQxNzk1MTU1NmM0NjhkYjY5MzY4ZjQ0ZjNlZjc4MWI=",
+        "content-type": "application/json"
       },
       body: {
-        personalizations: [
+        Messages: [
           {
-            to: [{ email: req.body.email, name: req.body.name }],
-            subject: "Email Verification"
+            From: {
+              Email: "no-reply-lademy@orilliance.com",
+              Name: "Lademy Support"
+            },
+            To: [{ Email: req.body.email, Name: req.body.name }],
+            Subject: "Email Verification",
+            TextPart: htmlcontent,
+            HTMLPart: htmlcontent
           }
-        ],
-        content: [
-          {
-            type: "text/plain",
-            value: htmlcontent
-          },
-          {
-            type: "text/html",
-            value: htmlcontent
-          }
-        ],
-        from: {
-          email: "no-reply@lademy.com",
-          name: "Lademy Customer Support"
-        },
-        reply_to: {
-          email: "lademy.official@gmail.com",
-          name: "Lademy Support"
-        }
+        ]
       },
       json: true
     };

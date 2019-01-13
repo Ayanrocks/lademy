@@ -87,17 +87,18 @@ export default {
     return {
       login_username: "",
       login_password: "",
-      username: "",
-      password: "",
+      username: "sdfdf",
+      password: "fghgllh",
       email: "",
-      name: "",
-      age: null,
-      gender: "Select Gender",
+      name: "sg",
+      age: 16,
+      gender: "Male",
       login__form: true,
       msg: "",
       error: false,
       success: false,
-      emailSent: 0
+      emailSent: 0,
+      verified: false
     };
   },
   components: {
@@ -120,13 +121,34 @@ export default {
       (this.success = true), (this.msg = msg);
     },
     emailVerify() {
-      setInterval(() => {
+      let inerval = setInterval(() => {
         axios.get("/student/verify").then(res => {
-          if (res.body.verify) {
+          if (res.data.verify) {
+            this.verified = true;
             this.createSuccess("Email Verified");
+            clearInterval(inerval);
           }
         });
       }, 5000);
+    },
+    sendEmail() {
+      axios
+        .post("/student/verify", {
+          email: this.email,
+          name: this.name
+        })
+        .then(res => {
+          this.createSuccess("Verification Email Sent.");
+          setTimeout(() => {
+            this.createSuccess(
+              "<a href='#' @click.prevent='sendEmail'/>Resend</a>"
+            );
+          }, 5000);
+        })
+        .catch(e => {
+          this.createError("Unable to send mail. Server Error");
+          console.log(e);
+        });
     },
     validator() {
       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -177,19 +199,13 @@ export default {
       ) {
         if (this.validator()) {
           if (this.emailSent <= 3) {
-            axios
-              .post("/student/verify", {
-                email: this.email,
-                name: this.name
-              })
-              .then(res => {
-                this.createSuccess("Verification Email Sent");
-                this.emailVerify();
-              })
-              .catch(e => {
-                this.createError("Unable to send mail. Server Error");
-                console.log(e);
-              });
+            this.sendEmail();
+            this.emailVerify();
+            if (this.verified) {
+              console.log("done");
+            } else {
+              this.signup();
+            }
           } else {
             this.createError("Too many email sending attempts");
           }
@@ -197,6 +213,11 @@ export default {
       } else {
         this.createError("Please fill all the fields");
       }
+    }
+  },
+  watch: {
+    verified: () => {
+      signup();
     }
   }
 };
