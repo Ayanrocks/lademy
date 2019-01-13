@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col team__member">
+            <!-- <div class="col team__member">
               <img
                 src="https://scontent.fccu5-1.fna.fbcdn.net/v/t1.0-1/p240x240/32231697_1117949901679509_3757321000669151232_n.jpg?_nc_cat=108&_nc_ht=scontent.fccu5-1.fna&oh=1d3f964260d908b885d0ee8d691668f1&oe=5CD8A22D"
                 alt="Avatar"
@@ -41,7 +41,7 @@
               <h2 class="text-center font-weight-normal">Founder,
                 <br>CEO
               </h2>
-            </div>
+            </div>-->
             <div class="col team__member">
               <img
                 src="https://scontent.fccu5-1.fna.fbcdn.net/v/t1.0-1/p240x240/28378276_1596132073817215_2885146996810213359_n.jpg?_nc_cat=105&_nc_ht=scontent.fccu5-1.fna&oh=bebad11aa0b6299f53d3487b00cc9f91&oe=5C9B02D3"
@@ -50,11 +50,11 @@
                 :style="{height: 20 + 'rem', width: 20 + 'rem'}"
               >
               <h1 class="text-center my-5">Ayan Banerjee</h1>
-              <h2 class="text-center font-weight-normal">Co-Founder,
+              <h2 class="text-center font-weight-normal">Founder,
                 <br>Product Designer
               </h2>
             </div>
-            <div class="col team__member">
+            <!-- <div class="col team__member">
               <img
                 src="https://scontent.fccu5-1.fna.fbcdn.net/v/t1.0-1/c0.40.240.240a/p240x240/1110_799770710127050_5165144399464897646_n.jpg?_nc_cat=104&_nc_ht=scontent.fccu5-1.fna&oh=d6c9e4ee3dcef0648c6797b9df28400d&oe=5C953B46"
                 alt="Avatar"
@@ -65,7 +65,7 @@
               <h2
                 class="text-center font-weight-normal"
               >Product Relationship Management, Administrator</h2>
-            </div>
+            </div>-->
           </div>
         </div>
       </section>

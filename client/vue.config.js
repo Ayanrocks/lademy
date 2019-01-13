@@ -11,6 +11,11 @@ module.exports = {
         target: "http://localhost:5000",
         ws: true,
         changeOrigin: false
+      },
+      "/student/signup": {
+        target: "http://localhost:5000",
+        ws: true,
+        changeOrigin: false
       }
     }
   }

@@ -51,6 +51,9 @@
                 <input type="text" v-model="name" placeholder="Enter your Name" required>
               </div>
               <div class="form-group">
+                <input type="text" v-model="phone" placeholder="Enter your Phone No." required>
+              </div>
+              <div class="form-group">
                 <input type="number" v-model="age" placeholder="Enter your age" required>
               </div>
               <div class="form-group">
@@ -92,6 +95,7 @@ export default {
       email: "",
       name: "sg",
       age: 16,
+      phone: "0123456789",
       gender: "Male",
       login__form: true,
       msg: "",
@@ -120,12 +124,35 @@ export default {
     createSuccess(msg) {
       (this.success = true), (this.msg = msg);
     },
+    addToDB() {
+      axios
+        .post("/student/signup", {
+          form: {
+            username: this.username,
+            password: this.password,
+            name: this.name,
+            email: this.email,
+            phone: this.phone,
+            age: this.age,
+            gender: this.gender
+          }
+        })
+        .then(res => {
+          console.log("Done");
+          this.createSuccess("Account Created Successfuly");
+        })
+        .catch(e => {
+          console.log(e);
+          this.createError("Error saving DB");
+        });
+    },
     emailVerify() {
       let inerval = setInterval(() => {
         axios.get("/student/verify").then(res => {
           if (res.data.verify) {
             this.verified = true;
             this.createSuccess("Email Verified");
+            this.addToDB();
             clearInterval(inerval);
           }
         });
@@ -138,7 +165,9 @@ export default {
           name: this.name
         })
         .then(res => {
-          this.createSuccess("Verification Email Sent.");
+          this.createSuccess(
+            "Verification Email Sent. Don't close this window"
+          );
           setTimeout(() => {
             this.createSuccess(
               "<a href='#' @click.prevent='sendEmail'/>Resend</a>"
@@ -157,7 +186,11 @@ export default {
         if (this.password.length >= 6) {
           if (typeof this.age == "number" && this.age > 0 && this.age < 50) {
             if (typeof this.name == "string") {
-              return true;
+              if (this.phone.length <= 10) {
+                return true;
+              } else {
+                this.createError("Enter Phone no. of 10 Digits");
+              }
             } else {
               this.createError("Please enter a valid name with no numbers");
             }
@@ -195,17 +228,13 @@ export default {
         this.password &&
         this.name &&
         this.age &&
-        this.gender
+        this.gender &&
+        this.phone
       ) {
         if (this.validator()) {
           if (this.emailSent <= 3) {
             this.sendEmail();
             this.emailVerify();
-            if (this.verified) {
-              console.log("done");
-            } else {
-              this.signup();
-            }
           } else {
             this.createError("Too many email sending attempts");
           }
