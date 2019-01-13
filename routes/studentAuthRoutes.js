@@ -117,10 +117,10 @@ module.exports = app => {
           emailVerificationToken = "";
           console.log("Token Expired");
         }, 1000 * 60 * 15);
-        res.status(200);
+        res.status(200).send();
       } else {
         console.log(err);
-        res.status("500");
+        res.status(500);
       }
     });
   });
