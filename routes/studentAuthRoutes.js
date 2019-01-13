@@ -11,7 +11,8 @@ const uuid = require("uuid/v4");
 const request = require("request");
 const keys = require("../config/keys");
 
-var emailVerificationToken = "";
+let emailVerificationToken = "";
+let verify = false;
 
 module.exports = app => {
   // Register a student route
@@ -73,7 +74,7 @@ module.exports = app => {
   app.post("/student/verify", (req, res) => {
     emailVerificationToken = uuid();
     console.log(emailVerificationToken);
-    htmlcontent = `<!DOCTYPE html><html lang="en"> <body> <h1 style="text-align: center; margin: 50px auto">Lademy verification</h1> <div style="margin: 50px auto; text-align: center"> <p> Enter the below link to the browser or <a href="https://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >Click Here</a >. <strong>Link will expire in 15 minutes</strong> </p><div> <a href="https://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >https://lademy.herokuapp.com/student/verification/${emailVerificationToken}</a > </div></div></body></html>`;
+    htmlcontent = `<!DOCTYPE html><html lang="en"> <body> <h1 style="text-align: center; margin: 50px auto">Lademy verification</h1> <div style="margin: 50px auto; text-align: center"> <p> Enter the below link to the browser or <a href="http://localhost:5000/student/verification/${emailVerificationToken}" >Click Here</a >. <strong>Link will expire in 15 minutes</strong> </p><div> <a href="https://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >https://lademy.herokuapp.com/student/verification/${emailVerificationToken}</a > </div></div></body></html>`;
     const options = {
       method: "POST",
       url: "https://api.sendgrid.com/v3/mail/send",
@@ -111,26 +112,31 @@ module.exports = app => {
     };
     request.post(options, (err, response, body) => {
       if (!err) {
-        console.log(emailVerificationToken);
         console.log("Success send");
         setTimeout(() => {
           emailVerificationToken = "";
           console.log("Token Expired");
         }, 1000 * 60 * 15);
-        console.log(body);
-        res.status(200).send("OK");
+        res.status(200);
       } else {
         console.log(err);
-        res.status("500").send("Server Error");
+        res.status("500");
       }
     });
+  });
+
+  app.get("/student/verify", (req, res) => {
+    res.send({ verify: verify });
+    if (verify) {
+      verify = false;
+    }
   });
 
   app.get("/student/verification/:emailVerificationToken", (req, res) => {
     if (req.params.emailVerificationToken == emailVerificationToken) {
       emailVerificationToken = "";
-      console.log("Success, Token Expire");
-      res.status(200);
+      verify = true;
+      res.status(200).redirect("/student/dashboard");
     } else {
       res.send("Token Expired");
     }

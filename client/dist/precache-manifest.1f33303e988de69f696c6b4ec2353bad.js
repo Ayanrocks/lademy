@@ -12,11 +12,11 @@ self.__precacheManifest = [
     "url": "/js/chunk-vendors.f68d836d.js"
   },
   {
-    "revision": "05908d503345bcf83543",
-    "url": "/js/app.5e0969b3.js"
+    "revision": "3fcf71d2a6718abe10b2",
+    "url": "/js/app.f1131768.js"
   },
   {
-    "revision": "552315c7a34c73cbfa6a6ff696718ab2",
+    "revision": "3c6545fbc9320e35692d8ec737e4382a",
     "url": "/index.html"
   },
   {
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/img/eduvector.4e8a7bc4.jpg"
   },
   {
-    "revision": "05908d503345bcf83543",
-    "url": "/css/app.8e435a5b.css"
+    "revision": "3fcf71d2a6718abe10b2",
+    "url": "/css/app.5cc74ecf.css"
   }
 ];

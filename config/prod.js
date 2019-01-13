@@ -4,5 +4,6 @@ module.exports = {
   googleClientID: process.env.GOOGLE_CLIENT_ID,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
   facebookClientID: process.env.FACEBOOK_CLIENT_ID,
-  facebookClientSecret: process.env.FACEBOOK_CLIENT_SECRET
+  facebookClientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+  sendgridAPIKey: process.env.SENDGRID_API_KEY
 };

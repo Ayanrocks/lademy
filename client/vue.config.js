@@ -6,6 +6,11 @@ module.exports = {
         target: "http://localhost:5000",
         ws: true,
         changeOrigin: false
+      },
+      "/student/verify": {
+        target: "http://localhost:5000",
+        ws: true,
+        changeOrigin: false
       }
     }
   }

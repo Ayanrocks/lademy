@@ -96,7 +96,8 @@ export default {
       login__form: true,
       msg: "",
       error: false,
-      success: false
+      success: false,
+      emailSent: 0
     };
   },
   components: {
@@ -117,6 +118,15 @@ export default {
     },
     createSuccess(msg) {
       (this.success = true), (this.msg = msg);
+    },
+    emailVerify() {
+      setInterval(() => {
+        axios.get("/student/verify").then(res => {
+          if (res.body.verify) {
+            this.createSuccess("Email Verified");
+          }
+        });
+      }, 5000);
     },
     validator() {
       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -166,7 +176,22 @@ export default {
         this.gender
       ) {
         if (this.validator()) {
-          this.createSuccess("Verification Email Sent");
+          if (this.emailSent <= 3) {
+            axios
+              .post("/student/verify", {
+                email: this.email,
+                name: this.name
+              })
+              .then(res => {
+                this.createSuccess("Verification Email Sent");
+                this.emailVerify();
+              })
+              .catch(e => {
+                this.createError("Unable to send mail. Server Error");
+              });
+          } else {
+            this.createError("Too many email sending attempts");
+          }
         }
       } else {
         this.createError("Please fill all the fields");
