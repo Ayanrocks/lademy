@@ -188,6 +188,7 @@ export default {
               })
               .catch(e => {
                 this.createError("Unable to send mail. Server Error");
+                console.log(e);
               });
           } else {
             this.createError("Too many email sending attempts");
