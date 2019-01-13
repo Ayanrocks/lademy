@@ -79,8 +79,7 @@ module.exports = app => {
       method: "POST",
       url: "https://api.mailjet.com/v3.1/send",
       headers: {
-        Authorization:
-          "Basic N2I5ZmIxYTQzNjE2NzkxNzIxNGJiM2Y1NmI3OWM3Yjk6MmQxNzk1MTU1NmM0NjhkYjY5MzY4ZjQ0ZjNlZjc4MWI=",
+        Authorization: "Basic" + keys.mailjetAPIKey,
         "content-type": "application/json"
       },
       body: {
