@@ -74,12 +74,12 @@ module.exports = app => {
   app.post("/student/verify", (req, res) => {
     emailVerificationToken = uuid();
     console.log(emailVerificationToken);
-    htmlcontent = `<!DOCTYPE html><html lang="en"> <body> <h1 style="text-align: center; margin: 50px auto">Lademy verification</h1> <div style="margin: 50px auto; text-align: center"> <p> Enter the below link to the browser or <a href="http://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >Click Here</a >. <strong>Link will expire in 15 minutes</strong> </p><div> <a href="https://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >https://lademy.herokuapp.com/student/verification/${emailVerificationToken}</a > </div></div></body></html>`;
+    htmlcontent = `<!DOCTYPE html><html lang="en"><head><title>Email Verification</title></head> <body> <h1 style="text-align: center; margin: 50px auto">Lademy verification</h1> <div style="margin: 50px auto; text-align: center"> <p> Enter the below link to the browser or <a href="http://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >Click Here</a >. <strong>Link will expire in 15 minutes</strong> </p><div> <a href="https://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >https://lademy.herokuapp.com/student/verification/${emailVerificationToken}</a > </div></div></body></html>`;
     const options = {
       method: "POST",
       url: "https://api.mailjet.com/v3.1/send",
       headers: {
-        Authorization: "Basic" + keys.mailjetAPIKey,
+        Authorization: "Basic " + keys.mailjetAPIKey,
         "content-type": "application/json"
       },
       body: {
@@ -158,6 +158,47 @@ module.exports = app => {
       res.send({ status: "done" });
     }
   );
+
+  //Forget password link
+  app.post("/student/forget", (req, res) => {
+    // const options = {
+    //   method: "POST",
+    //   url: "https://api.mailjet.com/v3.1/send",
+    //   headers: {
+    //     Authorization: "Basic " + keys.mailjetAPIKey,
+    //     "content-type": "application/json"
+    //   },
+    //   body: {
+    //     Messages: [
+    //       {
+    //         From: {
+    //           Email: "no-reply-lademy@orilliance.com",
+    //           Name: "Lademy Support"
+    //         },
+    //         To: [{ Email: req.body.email, Name: req.body.name }],
+    //         Subject: "Email Verification",
+    //         TextPart: htmlcontent,
+    //         HTMLPart: htmlcontent
+    //       }
+    //     ]
+    //   },
+    //   json: true
+    // };
+    // request.post(options, (err, response, body) => {
+    //   if (!err) {
+    //     console.log("Success send");
+    //     setTimeout(() => {
+    //       emailVerificationToken = "";
+    //       console.log("Token Expired");
+    //     }, 1000 * 60 * 15);
+    //     res.status(200).send();
+    //   } else {
+    //     console.log(err);
+    //     res.status(500);
+    //   }
+    // });
+    res.status(403).send();
+  });
 
   //Login the student
   app.post("/student/login", passport.authenticate("local"), (req, res) => {

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Reset Password</title>
+  </head>
+  <body>
+    <h1 style="text-align: center; margin: 50px auto">Lademy Reset Password</h1>
+    <div style="margin: 50px auto; text-align: center">
+      <p>
+        Enter the below link to the browser or
+        <a
+          href="http://lademy.herokuapp.com/student/reset/${emailVerificationToken}"
+          >Click Here</a
+        >
+        to reset your password . <strong>Link will expire in 15 minutes</strong>
+      </p>
+      <div>
+        <a
+          href="https://lademy.herokuapp.com/student/reset/${emailVerificationToken}"
+          >https://lademy.herokuapp.com/student/reset/${emailVerificationToken}</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

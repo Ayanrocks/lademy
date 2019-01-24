@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import About from "./views/About.vue";
 import studentLogin from "./views/studentLogin.vue";
+import forgetPassword from "./views/forgetPassword.vue";
 
 Vue.use(Router);
 
@@ -24,6 +25,11 @@ export default new Router({
       path: "/student",
       name: "student Login",
       component: studentLogin
+    },
+    {
+      path: "/student/forgot",
+      name: "forgot",
+      component: forgetPassword
     }
   ],
   scrollBehavior(to, from, savedPosition) {
