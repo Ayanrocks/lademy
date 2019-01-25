@@ -4,21 +4,25 @@
     <section class="studentLogin">
       <div class="container">
         <div class="row">
-          <h1 class="page__heading">Forget Password</h1>
-          <transition name="slide">
-            <div class="error-message" :class="{'bg-danger': error,}" v-if="error">{{msg}}</div>
-          </transition>
-          <transition name="slide">
-            <div class="success-message" :class="{'bg-success': success,}" v-if="success">{{msg}}</div>
-          </transition>
-          <form class="reset" v-if="!success">
-            <div class="form-group">
-              <input type="email" v-model="email" placeholder="Enter your Email to Reset">
-            </div>
-            <button class="btn submit" @click.prevent="onSubmit">
-              <i class="material-icons md-48">keyboard_arrow_right</i>
-            </button>
-          </form>
+          <h1 class="page__heading col-md-12 col">Forget Password</h1>
+          <div class="row">
+            <transition name="slide">
+              <div class="error-message" :class="{'bg-danger': error,}" v-if="error">{{msg}}</div>
+            </transition>
+            <transition name="slide">
+              <div class="success-message" :class="{'bg-success': success,}" v-if="success">{{msg}}</div>
+            </transition>
+          </div>
+          <div class="row">
+            <form class="reset col" v-if="!success">
+              <div class="form-group">
+                <input type="email" v-model="email" placeholder="Enter your Email to Reset">
+              </div>
+              <button class="btn submit" @click.prevent="onSubmit">
+                <i class="material-icons md-48">keyboard_arrow_right</i>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
@@ -45,7 +49,6 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.success = true;
       axios
         .post("/student/forget", {
           email: this.email
@@ -59,11 +62,9 @@ export default {
           }
         })
         .catch(e => {
-          console.log(e);
           this.error = true;
-          if (res.status == 404) {
-            this.msg = "Email address not found";
-          }
+          this.success = false;
+          this.msg = "No Email Found or Network Issue";
         });
     }
   }
@@ -82,8 +83,10 @@ export default {
   font-weight: 300;
   color: #000;
 }
+
+.error-message,
 .success-message {
-  margin-top: 22rem;
+  margin-top: 2rem;
   font-size: 2rem;
   background-color: #0f0;
   margin-left: -20rem;
@@ -99,7 +102,7 @@ export default {
 }
 input {
   display: block;
-  margin: 3rem -25rem;
+  // margin: 3rem -50rem;
   width: 60rem;
   border-radius: 5rem;
   background-color: #fff;
@@ -111,7 +114,6 @@ input {
 
 .submit {
   background-color: #00f;
-  margin-left: 29rem;
   padding: 1rem;
   border-radius: 100rem;
   width: 6rem;
