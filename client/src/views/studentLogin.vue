@@ -254,9 +254,6 @@ export default {
 
 
 <style lang="scss" scoped>
-* {
-  height: 100%;
-}
 .page__heading {
   margin-top: 15rem;
   letter-spacing: 2px;

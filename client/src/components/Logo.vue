@@ -14,7 +14,7 @@ export default {
 <style lang="scss" scoped>
 .logo {
   position: absolute;
-  top: 10%;
+  top: 5%;
   left: 10%;
   transform: translate(-10%, -10%);
   font-size: 3.2rem !important;

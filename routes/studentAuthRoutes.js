@@ -164,8 +164,10 @@ module.exports = app => {
 
   //Forget password link
   app.post("/student/forget", (req, res) => {
+    console.log(req.body.email + " from s");
     Student.findOne({ email: req.body.email }, (err, student) => {
       if (!err && student) {
+        htmlcontent = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>Reset Password</title></head><body><h1 style="text-align:center;margin:50px auto">Lademy Reset Password</h1><div style="margin:50px auto;text-align:center"><p>Enter the below link to the browser or <a href="http://lademy.herokuapp.com/student/reset/${resetVerificationToken}">Click Here</a> to reset your password . <strong>Link will expire in 15 minutes</strong></p><div><a href="https://lademy.herokuapp.com/student/reset/${resetVerificationToken}">https://lademy.herokuapp.com/student/reset/${resetVerificationToken}</a></div></div></body></html>`;
         const options = {
           method: "POST",
           url: "https://api.mailjet.com/v3.1/send",
@@ -181,7 +183,7 @@ module.exports = app => {
                   Name: "Lademy Support"
                 },
                 To: [{ Email: req.body.email, Name: req.body.name }],
-                Subject: "Email Verification",
+                Subject: "Reset Password Link",
                 TextPart: htmlcontent,
                 HTMLPart: htmlcontent
               }
@@ -202,13 +204,11 @@ module.exports = app => {
             res.status(500);
           }
         });
+      } else {
+        console.log("Not found");
+        res.status(404).send({ error: "No student Found" });
       }
-      else {
-        console.log("Not found")
-        res.status(404).send({ error: "No student Found" })
-      }
-    })
-
+    });
   });
 
   //Login the student

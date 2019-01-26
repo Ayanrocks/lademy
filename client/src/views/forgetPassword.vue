@@ -4,17 +4,22 @@
     <section class="studentLogin">
       <div class="container">
         <div class="row">
-          <h1 class="page__heading col-md-12 col">Forget Password</h1>
-          <div class="row">
-            <transition name="slide">
-              <div class="error-message" :class="{'bg-danger': error,}" v-if="error">{{msg}}</div>
-            </transition>
-            <transition name="slide">
-              <div class="success-message" :class="{'bg-success': success,}" v-if="success">{{msg}}</div>
-            </transition>
+          <div class="col-md-12">
+            <h1 class="page__heading">Forget Password</h1>
           </div>
-          <div class="row">
-            <form class="reset col" v-if="!success">
+          <transition name="slide">
+            <div class="errors col-md-12" v-if="error">
+              <div class="error-message" :class="{'bg-danger': error,}" v-if="error">{{msg}}</div>
+            </div>
+          </transition>
+
+          <transition name="slide">
+            <div class="col-md-12 errors">
+              <div class="success-message" :class="{'bg-success': success,}" v-if="success">{{msg}}</div>
+            </div>
+          </transition>
+          <div class="reset col-md-12">
+            <form v-if="!success">
               <div class="form-group">
                 <input type="email" v-model="email" placeholder="Enter your Email to Reset">
               </div>
@@ -73,9 +78,6 @@ export default {
 
 
 <style lang="scss" scoped>
-* {
-  height: 100%;
-}
 .page__heading {
   margin-top: 15rem;
   letter-spacing: 2px;
@@ -86,23 +88,23 @@ export default {
 
 .error-message,
 .success-message {
-  margin-top: 2rem;
   font-size: 2rem;
   background-color: #0f0;
-  margin-left: -20rem;
   width: 50rem;
   text-align: center;
   color: #fff;
   border-radius: 10rem;
 }
 
+.errors {
+  margin: 5rem auto 0 4rem;
+}
+
 .reset {
-  margin-top: 25rem;
-  margin-left: 12rem;
+  margin-top: 1rem;
 }
 input {
   display: block;
-  // margin: 3rem -50rem;
   width: 60rem;
   border-radius: 5rem;
   background-color: #fff;
