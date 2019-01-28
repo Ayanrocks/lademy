@@ -29,6 +29,9 @@
             </form>
             <form v-else>
               <div class="form-group">
+                <input type="file" id="file" ref="myFile" @change="previewFile">
+              </div>
+              <div class="form-group">
                 <input
                   type="username"
                   v-model="username"
@@ -90,6 +93,7 @@ export default {
     return {
       login_username: "",
       login_password: "",
+      profilePic: "",
       username: "sdfdf",
       password: "fghgllh",
       email: "",
@@ -101,8 +105,7 @@ export default {
       msg: "",
       error: false,
       success: false,
-      emailSent: 0,
-      verified: false
+      emailSent: 0
     };
   },
   components: {
@@ -124,10 +127,12 @@ export default {
     createSuccess(msg) {
       (this.success = true), (this.msg = msg);
     },
-    addToDB() {
+
+    sendEmail() {
       axios
-        .post("/student/signup", {
+        .post("/student/verify", {
           form: {
+            profilePic: this.profilePic,
             username: this.username,
             password: this.password,
             name: this.name,
@@ -138,47 +143,15 @@ export default {
           }
         })
         .then(res => {
-          console.log("Done");
-          this.createSuccess("Account Created Successfuly");
+          this.createSuccess("Verification Email Sent");
+          return true;
         })
         .catch(e => {
           console.log(e);
           this.createError("Error saving DB");
         });
     },
-    emailVerify() {
-      let inerval = setInterval(() => {
-        axios.get("/student/verify").then(res => {
-          if (res.data.verify) {
-            this.verified = true;
-            this.createSuccess("Email Verified");
-            this.addToDB();
-            clearInterval(inerval);
-          }
-        });
-      }, 5000);
-    },
-    sendEmail() {
-      axios
-        .post("/student/verify", {
-          email: this.email,
-          name: this.name
-        })
-        .then(res => {
-          this.createSuccess(
-            "Verification Email Sent. Don't close this window"
-          );
-          setTimeout(() => {
-            this.createSuccess(
-              "<a href='#' @click.prevent='sendEmail'/>Resend</a>"
-            );
-          }, 5000);
-        })
-        .catch(e => {
-          this.createError("Unable to send mail. Server Error");
-          console.log(e);
-        });
-    },
+
     validator() {
       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
       this.age = parseInt(this.age);
@@ -213,7 +186,9 @@ export default {
             username: this.username,
             password: this.password
           })
-          .then(res => {})
+          .then(res => {
+            this.$router.push("/student/dashboard");
+          })
           .catch(err => {
             console.log(err);
             this.createError("Unauthorized");
@@ -233,8 +208,8 @@ export default {
       ) {
         if (this.validator()) {
           if (this.emailSent <= 3) {
+            this.emailSent += 1;
             this.sendEmail();
-            this.emailVerify();
           } else {
             this.createError("Too many email sending attempts");
           }
@@ -242,11 +217,10 @@ export default {
       } else {
         this.createError("Please fill all the fields");
       }
-    }
-  },
-  watch: {
-    verified: () => {
-      signup();
+    },
+    previewFile() {
+      this.profilePic = this.$refs.myFile.files;
+      console.log(this.profilePic);
     }
   }
 };

@@ -9,11 +9,15 @@ const Student = require("../models/Students");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid/v4");
 const request = require("request");
+const multer = require("multer");
 const keys = require("../config/keys");
 
+var upload = multer({ dest: path.join(__dirname, "../public/profilePic") });
 let emailVerificationToken = "";
 let resetVerificationToken = "";
 let verify = false;
+
+const studentDataTemp = {};
 
 module.exports = app => {
   // Register a student route
@@ -30,13 +34,13 @@ module.exports = app => {
               bcrypt.hash(req.body.password, salt, (err, hash) => {
                 if (!err && hash) {
                   const studentID = uuid();
-                  const profilePic =
-                    req.body.gender === "Male"
-                      ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZVDerql1PFrLlwTV-S3KBWuXx2loziJGcNd_jxVNmVBXZy4boxA"
-                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0byTDjwOUPqhChtmb35ug_iaCSWE6nmimWzDfgmNXpUbjkiMzJQ";
+                  // const profilePic =
+                  //   req.body.gender === "Male"
+                  //     ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZVDerql1PFrLlwTV-S3KBWuXx2loziJGcNd_jxVNmVBXZy4boxA"
+                  //     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0byTDjwOUPqhChtmb35ug_iaCSWE6nmimWzDfgmNXpUbjkiMzJQ";
                   const studentDetails = {
                     studentID,
-                    profilePic,
+                    profilePic: req.body.profilePic,
                     username: req.body.username,
                     password: hash,
                     salt,
@@ -74,7 +78,16 @@ module.exports = app => {
 
   app.post("/student/verify", (req, res) => {
     emailVerificationToken = uuid();
-    console.log(emailVerificationToken);
+    studentDataTemp = {
+      profilePic: req.body.profilePic,
+      username: req.body.username,
+      password: req.body.password,
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+      age: req.body.age,
+      gender: req.body.gender
+    };
     htmlcontent = `<!DOCTYPE html><html lang="en"><head><title>Email Verification</title></head> <body> <h1 style="text-align: center; margin: 50px auto">Lademy verification</h1> <div style="margin: 50px auto; text-align: center"> <p> Enter the below link to the browser or <a href="http://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >Click Here</a >. <strong>Link will expire in 15 minutes</strong> </p><div> <a href="https://lademy.herokuapp.com/student/verification/${emailVerificationToken}" >https://lademy.herokuapp.com/student/verification/${emailVerificationToken}</a > </div></div></body></html>`;
     const options = {
       method: "POST",
@@ -101,9 +114,10 @@ module.exports = app => {
     };
     request.post(options, (err, response, body) => {
       if (!err) {
-        console.log("Success send");
+        console.log("Mail Sent to ", req.body.enail);
         setTimeout(() => {
           emailVerificationToken = "";
+          studentDataTemp = {};
           console.log("Token Expired");
         }, 1000 * 60 * 15);
         res.status(200).send();
@@ -114,18 +128,24 @@ module.exports = app => {
     });
   });
 
-  app.get("/student/verify", (req, res) => {
-    res.send({ verify: verify });
-    if (verify) {
-      verify = false;
-    }
-  });
-
   app.get("/student/verification/:emailVerificationToken", (req, res) => {
     if (req.params.emailVerificationToken == emailVerificationToken) {
-      emailVerificationToken = "";
-      verify = true;
-      res.status(200).redirect("/student/dashboard");
+      request
+        .post({
+          url: "/student/signup",
+          method: "POST",
+          body: studentDataTemp
+        })
+        .then(res => {
+          studentDataTemp = {};
+          emailVerificationToken = "";
+          verify = true;
+          res.status(200).redirect("/student/dashboard");
+        })
+        .catch(e => {
+          res.send({ Error: "Error Saving to DB" });
+          request.get(`/student/verification/${emailVerificationToken}`);
+        });
     } else {
       res.send("Token Expired");
     }
@@ -164,7 +184,6 @@ module.exports = app => {
 
   //Forget password link
   app.post("/student/forget", (req, res) => {
-    console.log(req.body.email + " from s");
     Student.findOne({ email: req.body.email }, (err, student) => {
       if (!err && student) {
         htmlcontent = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>Reset Password</title></head><body><h1 style="text-align:center;margin:50px auto">Lademy Reset Password</h1><div style="margin:50px auto;text-align:center"><p>Enter the below link to the browser or <a href="http://lademy.herokuapp.com/student/reset/${resetVerificationToken}">Click Here</a> to reset your password . <strong>Link will expire in 15 minutes</strong></p><div><a href="https://lademy.herokuapp.com/student/reset/${resetVerificationToken}">https://lademy.herokuapp.com/student/reset/${resetVerificationToken}</a></div></div></body></html>`;
@@ -191,19 +210,20 @@ module.exports = app => {
           },
           json: true
         };
-        request.post(options, (err, response, body) => {
-          if (!err) {
-            console.log("Success send");
-            setTimeout(() => {
-              emailVerificationToken = "";
-              console.log("Token Expired");
-            }, 1000 * 60 * 15);
-            res.status(200).send();
-          } else {
-            console.log(err);
-            res.status(500);
-          }
-        });
+        // request.post(options, (err, response, body) => {
+        //   if (!err) {
+        //     console.log("Success send");
+        //     setTimeout(() => {
+        //       emailVerificationToken = "";
+        //       console.log("Token Expired");
+        //     }, 1000 * 60 * 15);
+        //     res.status(200).send();
+        //   } else {
+        //     console.log(err);
+        //     res.status(500);
+        //   }
+        // });
+        res.send("DOe");
       } else {
         console.log("Not found");
         res.status(404).send({ error: "No student Found" });

@@ -60,6 +60,7 @@ export default {
         })
         .then(res => {
           if (res.status == 200) {
+            this.success = true;
             this.msg = "Reset Link Sent.";
             setTimeout(() => {
               this.$router.push({ name: "student Login" });
@@ -69,7 +70,8 @@ export default {
         .catch(e => {
           this.error = true;
           this.success = false;
-          this.msg = "No Email Found or Network Issue";
+          this.msg = "Either No Email Found or Network Issue";
+          console.log(e);
         });
     }
   }
