@@ -11,13 +11,74 @@ const uuid = require("uuid/v4");
 const request = require("request");
 const multer = require("multer");
 const keys = require("../config/keys");
+const path = require("path");
+const sharp = require("sharp");
+const fs = require("fs");
 
-var upload = multer({ dest: path.join(__dirname, "../public/profilePic") });
+const profilePicPath = path.join(__dirname, "../public/profilePic/");
+
+const fileFilter = function(req, file, cb) {
+  const allowedTypes = ["image/jpeg", "image/png"];
+
+  if (!allowedTypes.includes(file.mimetype)) {
+    const error = new Error("Wrong File Type");
+    error.code = "LIMIT_FILE_TYPES";
+
+    return cb(error, false);
+  }
+
+  cb(null, true);
+};
+
+var upload = multer({
+  dest: profilePicPath,
+  fileFilter,
+  limits: {
+    fileSize: 1600000
+  }
+});
 let emailVerificationToken = "";
 let resetVerificationToken = "";
-let verify = false;
+let studentDataTemp = {};
 
-const studentDataTemp = {};
+function signup(req, res) {
+  const studentID = uuid();
+  let tempLen = req.body.profilePic.split(".").len();
+  let imageExtension = req.body.profilePic.split(".")[tempLen];
+  const newFile = profilePicPath + studentId + imageExtension;
+  fs.rename(req.body.profilePic, newFile, err => {
+    if (err) {
+      console.log(err);
+    }
+  });
+  // const profilePic =
+  //   req.body.gender === "Male"
+  //     ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZVDerql1PFrLlwTV-S3KBWuXx2loziJGcNd_jxVNmVBXZy4boxA"
+  //     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0byTDjwOUPqhChtmb35ug_iaCSWE6nmimWzDfgmNXpUbjkiMzJQ";
+  const studentDetails = {
+    studentID,
+    profilePic: req.body.profilePic,
+    username: req.body.username,
+    password: hash,
+    salt,
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    age: req.body.age,
+    stream: "",
+    gender: req.body.gender,
+    lectures: null
+  };
+
+  Student.create(studentDetails, err => {
+    if (!err) {
+      res.status(200).send("Saved sucessfully");
+    } else {
+      console.log(err);
+      res.status(500).send({ Error: "Error saving to database" });
+    }
+  });
+}
 
 module.exports = app => {
   // Register a student route
@@ -33,36 +94,7 @@ module.exports = app => {
             if (!err && salt) {
               bcrypt.hash(req.body.password, salt, (err, hash) => {
                 if (!err && hash) {
-                  const studentID = uuid();
-                  // const profilePic =
-                  //   req.body.gender === "Male"
-                  //     ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZVDerql1PFrLlwTV-S3KBWuXx2loziJGcNd_jxVNmVBXZy4boxA"
-                  //     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0byTDjwOUPqhChtmb35ug_iaCSWE6nmimWzDfgmNXpUbjkiMzJQ";
-                  const studentDetails = {
-                    studentID,
-                    profilePic: req.body.profilePic,
-                    username: req.body.username,
-                    password: hash,
-                    salt,
-                    name: req.body.name,
-                    email: req.body.email,
-                    phone: req.body.phone,
-                    age: req.body.age,
-                    stream: "",
-                    gender: req.body.gender,
-                    lectures: null
-                  };
-
-                  Student.create(studentDetails, err => {
-                    if (!err) {
-                      res.status(200).send("Saved sucessfully");
-                    } else {
-                      console.log(err);
-                      res
-                        .status(500)
-                        .send({ Error: "Error saving to database" });
-                    }
-                  });
+                  return signup(req, res);
                 } else {
                   console.log(err, "Error hashing pass");
                 }
@@ -76,10 +108,24 @@ module.exports = app => {
     );
   });
 
-  app.post("/student/verify", (req, res) => {
+  app.post("/student/verify", upload.single("file"), async (req, res) => {
     emailVerificationToken = uuid();
+    try {
+      await sharp(req.file.path)
+        .resize(500)
+        .flatten("white")
+        .toFile(profilePicPath + req.file.originalname);
+      await fs.unlink(req.file.path, err => {
+        if (err) {
+          res.status(500);
+        }
+      });
+    } catch (e) {
+      console.log(e);
+      res.status(502);
+    }
     studentDataTemp = {
-      profilePic: req.body.profilePic,
+      profilePic: req.file.destination + "/" + req.file.originalname,
       username: req.body.username,
       password: req.body.password,
       name: req.body.name,
@@ -114,7 +160,7 @@ module.exports = app => {
     };
     request.post(options, (err, response, body) => {
       if (!err) {
-        console.log("Mail Sent to ", req.body.enail);
+        console.log("Mail Sent to ", req.body.email);
         setTimeout(() => {
           emailVerificationToken = "";
           studentDataTemp = {};
@@ -129,17 +175,17 @@ module.exports = app => {
   });
 
   app.get("/student/verification/:emailVerificationToken", (req, res) => {
-    if (req.params.emailVerificationToken == emailVerificationToken) {
+    if (req.params.emailVerificationToken === emailVerificationToken) {
+      console.log(studentDataTemp);
       request
         .post({
-          url: "/student/signup",
+          url: "http://localhost:5000/student/signup",
           method: "POST",
-          body: studentDataTemp
+          form: studentDataTemp
         })
         .then(res => {
           studentDataTemp = {};
           emailVerificationToken = "";
-          verify = true;
           res.status(200).redirect("/student/dashboard");
         })
         .catch(e => {
@@ -147,6 +193,7 @@ module.exports = app => {
           request.get(`/student/verification/${emailVerificationToken}`);
         });
     } else {
+      studentDataTemp = {};
       res.send("Token Expired");
     }
   });

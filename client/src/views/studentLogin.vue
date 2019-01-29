@@ -27,9 +27,19 @@
                 <i class="material-icons md-48">keyboard_arrow_right</i>
               </button>
             </form>
-            <form v-else>
+            <form v-else enctype="multipart/form-data" @submit.prevent="signup">
               <div class="form-group">
-                <input type="file" id="file" ref="myFile" @change="previewFile">
+                <label for="file">
+                  <span v-if="profilePic">{{profilePic.name}}</span>
+                  <span v-else>Upload a Profile Pic. CLick Here</span>
+                </label>
+                <input
+                  type="file"
+                  id="file"
+                  ref="myFile"
+                  @change="previewFile"
+                  accept="image/x-png, image/gif, image/jpeg"
+                >
               </div>
               <div class="form-group">
                 <input
@@ -67,7 +77,7 @@
                 </select>
               </div>
 
-              <button class="btn submit" style="margin-left: 29rem" @click.prevent="signup">
+              <button class="btn submit" style="margin-left: 29rem">
                 <i class="material-icons md-48">keyboard_arrow_right</i>
               </button>
             </form>
@@ -121,34 +131,36 @@ export default {
     },
     createError(msg) {
       this.error = true;
+      this.success = false;
       this.msg = msg;
       this.removeError();
     },
     createSuccess(msg) {
-      (this.success = true), (this.msg = msg);
+      this.success = true;
+      this.error = false;
+      this.msg = msg;
     },
 
     sendEmail() {
+      let formData = new FormData();
+      formData.append("file", this.profilePic);
+      formData.append("username", this.username);
+      formData.append("password", this.password);
+      formData.append("name", this.name);
+      formData.append("email", this.email);
+      formData.append("phone", this.phone);
+      formData.append("age", this.age);
+      formData.append("gender", this.gender);
+
       axios
-        .post("/student/verify", {
-          form: {
-            profilePic: this.profilePic,
-            username: this.username,
-            password: this.password,
-            name: this.name,
-            email: this.email,
-            phone: this.phone,
-            age: this.age,
-            gender: this.gender
-          }
-        })
+        .post("/student/verify", formData)
         .then(res => {
           this.createSuccess("Verification Email Sent");
           return true;
         })
         .catch(e => {
           console.log(e);
-          this.createError("Error saving DB");
+          this.createError("Error sending verification mail");
         });
     },
 
@@ -159,10 +171,16 @@ export default {
         if (this.password.length >= 6) {
           if (typeof this.age == "number" && this.age > 0 && this.age < 50) {
             if (typeof this.name == "string") {
-              if (this.phone.length <= 10) {
-                return true;
+              if (this.phone.length <= 13) {
+                if (this.profilePic.size <= 1600000) {
+                  return true;
+                } else {
+                  this.createError("Profile Pic size must be less than 1.5MB");
+                }
               } else {
-                this.createError("Enter Phone no. of 10 Digits");
+                this.createError(
+                  "Enter Phone no. of 10 Digits with country code"
+                );
               }
             } else {
               this.createError("Please enter a valid name with no numbers");
@@ -219,8 +237,7 @@ export default {
       }
     },
     previewFile() {
-      this.profilePic = this.$refs.myFile.files;
-      console.log(this.profilePic);
+      this.profilePic = this.$refs.myFile.files[0];
     }
   }
 };
@@ -256,7 +273,7 @@ export default {
 input,
 select {
   display: block;
-  margin: 3rem -25rem;
+  margin: 2rem -25rem;
   width: 60rem;
   border-radius: 5rem;
   background-color: #fff;
@@ -264,6 +281,19 @@ select {
   font-size: 2rem;
   padding: 1rem;
   color: rgb(179, 179, 179);
+}
+
+label {
+  padding: 5rem;
+  width: 60rem;
+  border: 4px dashed #eee;
+  font-size: 2rem;
+  margin: 5rem -25rem 0 -25rem;
+  text-align: center;
+}
+
+input[type="file"] {
+  visibility: hidden;
 }
 
 .form__switcher {
