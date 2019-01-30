@@ -53,7 +53,7 @@
                 <input
                   type="password"
                   v-model="password"
-                  placeholder="Enter your password"
+                  placeholder="Enter your Password"
                   required
                 >
               </div>
@@ -64,7 +64,7 @@
                 <input type="text" v-model="name" placeholder="Enter your Name" required>
               </div>
               <div class="form-group">
-                <input type="text" v-model="phone" placeholder="Enter your Phone No." required>
+                <input type="tel" v-model="phone" placeholder="Enter your Phone No." required>
               </div>
               <div class="form-group">
                 <input type="number" v-model="age" placeholder="Enter your age" required>
@@ -77,15 +77,12 @@
                 </select>
               </div>
 
-              <button class="btn submit" style="margin-left: 29rem">
+              <button class="btn submit" style="margin-left: 19rem">
                 <i class="material-icons md-48">keyboard_arrow_right</i>
               </button>
             </form>
           </div>
-          <div
-            class="col-sm form__switcher"
-            @click="login__form = !login__form"
-          >Don't Have an account? Join US.</div>
+          <div class="col-sm form__switcher" @click="formChanger">{{formMsg}}</div>
         </div>
       </div>
     </section>
@@ -104,18 +101,19 @@ export default {
       login_username: "",
       login_password: "",
       profilePic: "",
-      username: "sdfdf",
-      password: "fghgllh",
+      username: "",
+      password: "",
       email: "",
-      name: "sg",
-      age: 16,
-      phone: "0123456789",
-      gender: "Male",
+      name: "",
+      age: null,
+      phone: "",
+      gender: "Select Gender",
       login__form: true,
       msg: "",
       error: false,
       success: false,
-      emailSent: 0
+      emailSent: 0,
+      formMsg: "Don't Have an account? Join US."
     };
   },
   components: {
@@ -123,6 +121,14 @@ export default {
     GoogleButton
   },
   methods: {
+    formChanger() {
+      this.login__form = !this.login__form;
+      if (this.login__form) {
+        this.formMsg = "Don't Have an account? Join US.";
+      } else {
+        this.formMsg = "Already Have an account. Login!";
+      }
+    },
     removeError() {
       setTimeout(() => {
         this.msg = "";
@@ -172,7 +178,10 @@ export default {
           if (typeof this.age == "number" && this.age > 0 && this.age < 50) {
             if (typeof this.name == "string") {
               if (this.phone.length <= 13) {
-                if (this.profilePic.size <= 1600000) {
+                if (
+                  this.profilePic.size <= 1600000 &&
+                  this.profilePic.size >= 50
+                ) {
                   return true;
                 } else {
                   this.createError("Profile Pic size must be less than 1.5MB");
@@ -245,6 +254,15 @@ export default {
 
 
 <style lang="scss" scoped>
+.studentLogin {
+  background-image: url("../assets/studentSignup.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+}
+
 .page__heading {
   margin-top: 15rem;
   letter-spacing: 2px;
@@ -255,7 +273,7 @@ export default {
 
 .login {
   margin-top: 20rem;
-  margin-left: 12rem;
+  margin-left: -5rem;
 }
 
 .error-message,
@@ -264,7 +282,7 @@ export default {
   font-size: 2rem;
   background-color: #0f0;
   margin-left: -20rem;
-  width: 50rem;
+  width: 40rem;
   text-align: center;
   color: #fff;
   border-radius: 10rem;
@@ -274,7 +292,7 @@ input,
 select {
   display: block;
   margin: 2rem -25rem;
-  width: 60rem;
+  width: 50rem;
   border-radius: 5rem;
   background-color: #fff;
   border: 1px solid rgb(187, 187, 187);
@@ -285,10 +303,10 @@ select {
 
 label {
   padding: 5rem;
-  width: 60rem;
+  width: 50rem;
   border: 4px dashed #eee;
   font-size: 2rem;
-  margin: 5rem -25rem 0 -25rem;
+  margin: 5rem -25rem -5rem -25rem;
   text-align: center;
 }
 
@@ -297,15 +315,16 @@ input[type="file"] {
 }
 
 .form__switcher {
-  font-size: 2.8rem;
-  margin: 45rem 0 45rem 5rem;
+  font-size: 2.5rem;
+  margin: 45rem -25rem 45rem 5rem;
   width: 50rem;
   cursor: pointer;
+  color: #fff;
 }
 
 .submit {
   background-color: #00f;
-  margin-left: 39rem;
+  margin-left: 29rem;
   padding: 1rem;
   border-radius: 100rem;
   width: 6rem;

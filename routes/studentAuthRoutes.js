@@ -41,11 +41,10 @@ let emailVerificationToken = "";
 let resetVerificationToken = "";
 let studentDataTemp = {};
 
-function signup(req, res) {
+function signup(req, res, hash, salt) {
   const studentID = uuid();
-  let tempLen = req.body.profilePic.split(".").len();
-  let imageExtension = req.body.profilePic.split(".")[tempLen];
-  const newFile = profilePicPath + studentId + imageExtension;
+  let imageExtension = req.body.profilePic.split(".").pop();
+  const newFile = profilePicPath + studentID + "." + imageExtension;
   fs.rename(req.body.profilePic, newFile, err => {
     if (err) {
       console.log(err);
@@ -57,7 +56,7 @@ function signup(req, res) {
   //     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0byTDjwOUPqhChtmb35ug_iaCSWE6nmimWzDfgmNXpUbjkiMzJQ";
   const studentDetails = {
     studentID,
-    profilePic: req.body.profilePic,
+    profilePic: newFile,
     username: req.body.username,
     password: hash,
     salt,
@@ -90,11 +89,12 @@ module.exports = app => {
         if (!err && student) {
           res.send({ Error: "Username or email Exists" });
         } else if (!student) {
-          const salt = bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.genSalt(10, (err, salt) => {
             if (!err && salt) {
               bcrypt.hash(req.body.password, salt, (err, hash) => {
                 if (!err && hash) {
-                  return signup(req, res);
+                  signup(req, res, hash, salt);
+                  console.log("Done SAving");
                 } else {
                   console.log(err, "Error hashing pass");
                 }
@@ -177,21 +177,22 @@ module.exports = app => {
   app.get("/student/verification/:emailVerificationToken", (req, res) => {
     if (req.params.emailVerificationToken === emailVerificationToken) {
       console.log(studentDataTemp);
-      request
-        .post({
+      request.post(
+        {
           url: "http://localhost:5000/student/signup",
           method: "POST",
           form: studentDataTemp
-        })
-        .then(res => {
+        },
+        err => {
+          if (err) {
+            res.send({ Error: "Error Saving to DB" });
+            request.get(`/student/verification/${emailVerificationToken}`);
+          }
           studentDataTemp = {};
           emailVerificationToken = "";
           res.status(200).redirect("/student/dashboard");
-        })
-        .catch(e => {
-          res.send({ Error: "Error Saving to DB" });
-          request.get(`/student/verification/${emailVerificationToken}`);
-        });
+        }
+      );
     } else {
       studentDataTemp = {};
       res.send("Token Expired");

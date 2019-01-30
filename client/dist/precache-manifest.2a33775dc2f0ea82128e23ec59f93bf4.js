@@ -1,23 +1,31 @@
 self.__precacheManifest = [
   {
-    "revision": "3bf5930bec249de464b81e36af4989e7",
-    "url": "/img/engineering.3bf5930b.jpg"
+    "revision": "7d4f7f27263835ae18ed58856916b7ef",
+    "url": "/img/honours.7d4f7f27.jpg"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
     "url": "/robots.txt"
   },
   {
+    "revision": "3bf5930bec249de464b81e36af4989e7",
+    "url": "/img/engineering.3bf5930b.jpg"
+  },
+  {
     "revision": "c16b29cae7df0c15c32f",
     "url": "/js/chunk-vendors.f68d836d.js"
   },
   {
-    "revision": "8fd76b21889519c7c983",
-    "url": "/js/app.2b80e191.js"
+    "revision": "71f19db15fc9a6723e30",
+    "url": "/js/app.d57ae4d5.js"
   },
   {
-    "revision": "0b4e30cae29d160a495b99ff12d20015",
+    "revision": "6c7d9199bf8acaf2612b56532af143ac",
     "url": "/index.html"
+  },
+  {
+    "revision": "8bc3bfd12a40f4b11486ed7fe7249030",
+    "url": "/img/studentSignup.8bc3bfd1.jpg"
   },
   {
     "revision": "564dc168be44d7e9a78e51c6bf707c08",
@@ -26,10 +34,6 @@ self.__precacheManifest = [
   {
     "revision": "e7cc305b0541e5488a28e66b0ef7233b",
     "url": "/img/management.e7cc305b.jpg"
-  },
-  {
-    "revision": "7d4f7f27263835ae18ed58856916b7ef",
-    "url": "/img/honours.7d4f7f27.jpg"
   },
   {
     "revision": "af5b3f1ff29e2ddc3af556194c13e5ed",
@@ -44,7 +48,7 @@ self.__precacheManifest = [
     "url": "/css/media.css"
   },
   {
-    "revision": "8fd76b21889519c7c983",
-    "url": "/css/app.451b76e9.css"
+    "revision": "71f19db15fc9a6723e30",
+    "url": "/css/app.c03e1da8.css"
   }
 ];
