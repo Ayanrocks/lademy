@@ -1,7 +1,7 @@
 <template>
   <div>
     <Logo color="dark"/>
-    <SideBar/>
+    <SideBar src="getData"/>
     <div class="container">
       <div class="row"></div>
     </div>
@@ -12,10 +12,22 @@
 <script>
 import Logo from "../components/Logo";
 import SideBar from "../components/SideBar";
+
+import { mapGetters, mapActions } from "vuex";
+
 export default {
+  methods: {},
+  computed: {
+    ...mapGetters(["getData"]),
+    ...mapActions(["fetchData"])
+  },
   components: {
     SideBar,
     Logo
+  },
+  created() {
+    this.$store.actions.fetchData();
+    console.log(this.$store);
   }
 };
 </script>

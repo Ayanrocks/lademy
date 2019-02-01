@@ -207,11 +207,11 @@ export default {
       }
     },
     login() {
-      if (this.username && this.password) {
+      if (this.login_username && this.login_password) {
         axios
           .post("/student/login", {
-            username: this.username,
-            password: this.password
+            username: this.login_username,
+            password: this.login_password
           })
           .then(res => {
             this.$router.push("/student/dashboard");

@@ -12,9 +12,10 @@ const Students = require("../../models/Students");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid/v4");
 const keys = require("../../config/keys");
+const _ = require("lodash");
 
 passport.serializeUser((student, done) => {
-  done(null, student);
+  done(null, student.id);
 });
 
 passport.deserializeUser((id, done) => {

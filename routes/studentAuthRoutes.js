@@ -14,6 +14,8 @@ const keys = require("../config/keys");
 const path = require("path");
 const sharp = require("sharp");
 const fs = require("fs");
+const _ = require("lodash");
+const jwt = require("jsonwebtoken");
 
 const profilePicPath = path.join(__dirname, "../public/profilePic/");
 
@@ -41,6 +43,23 @@ let emailVerificationToken = "";
 let resetVerificationToken = "";
 let studentDataTemp = {};
 
+// Checks JWT tokens
+function tokenCheck(req, res, next) {
+  const header = req.headers["authorization"];
+
+  if (typeof header !== "undefined") {
+    const bearer = header.split(" ");
+    const token = bearer[1];
+
+    req.token = token;
+    next();
+  } else {
+    //If header is undefined return Forbidden (403)
+    res.sendStatus(403);
+  }
+}
+
+// Function to Signup Students
 function signup(req, res, hash, salt) {
   const studentID = uuid();
   let imageExtension = req.body.profilePic.split(".").pop();
@@ -277,6 +296,10 @@ module.exports = app => {
         res.status(404).send({ error: "No student Found" });
       }
     });
+  });
+
+  app.get("/student/info", tokenCheck, (req, res) => {
+    jwt.verify(req.token, "My Secret", (err, auth));
   });
 
   //Login the student

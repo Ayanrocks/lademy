@@ -22,7 +22,8 @@ const studentSchema = new Schema({
   lectures: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Lectures"
-  }
+  },
+  createdAt: { type: Date, default: Date.now() }
 });
 
 module.exports = mongoose.model("Students", studentSchema);

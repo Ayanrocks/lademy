@@ -2,7 +2,9 @@
   <div>
     <div class="sidebar">
       <div class>
-        <div class="sidebar__profilePic"></div>
+        <div class="sidebar__profilePic">
+          <img :src="src" alt>
+        </div>
         <div class="sidebar__menu">
           <ul class="menu__list">
             <li class="menu__list--item">
@@ -26,6 +28,12 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: ["src"]
+};
+</script>
 
 
 <style lang="scss" scoped>
