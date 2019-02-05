@@ -8,9 +8,9 @@
         <img class="home-cover" src="../assets/home_cover.png" alt="Cover">
         <div>
           <Logo color="white"/>
-          <div class="search">
+          <!-- <div class="search">
             <i class="material-icons md-36" :style="{fontSize: 3.6+'rem'}">search</i>
-          </div>
+          </div>-->
         </div>
         <div class="container">
           <div class="heading">

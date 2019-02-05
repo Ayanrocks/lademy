@@ -1,9 +1,9 @@
 <template>
   <div>
     <Logo color="dark"/>
-    <SideBar src="getData"/>
+    <SideBar :src="getData"/>
     <div class="container">
-      <div class="row"></div>
+      <div class="row">{{currentUser}}</div>
     </div>
   </div>
 </template>
@@ -13,11 +13,16 @@
 import Logo from "../components/Logo";
 import SideBar from "../components/SideBar";
 
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 
 export default {
-  methods: {},
-  computed: {
+  data() {
+    return {
+      currentUser: {}
+    };
+  },
+  methods: {
+    ...mapState(["profile"]),
     ...mapGetters(["getData"]),
     ...mapActions(["fetchData"])
   },
@@ -25,9 +30,9 @@ export default {
     SideBar,
     Logo
   },
-  created() {
-    this.$store.actions.fetchData();
-    console.log(this.$store);
+  mounted() {
+    this.fetchData();
+    this.currentUser = this.getData();
   }
 };
 </script>

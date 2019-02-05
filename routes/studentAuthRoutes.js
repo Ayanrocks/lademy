@@ -298,8 +298,8 @@ module.exports = app => {
     });
   });
 
-  app.get("/student/info", tokenCheck, (req, res) => {
-    jwt.verify(req.token, "My Secret", (err, auth));
+  app.get("/student/info", (req, res) => {
+    res.send(req.user);
   });
 
   //Login the student

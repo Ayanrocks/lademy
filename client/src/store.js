@@ -9,20 +9,21 @@ export default new Vuex.Store({
     profile: {}
   },
   getters: {
-    getData() {
+    getData(state) {
       return state.profile;
     }
   },
   mutations: {
-    fetchData(state) {
-      axios.get("/student/info").then(res => {
-        state.profile = res.body;
-      });
+    FETCH_DATA(state, payload) {
+      state.profile = payload;
     }
   },
   actions: {
     fetchData(context) {
-      context.commit("fetchData");
+      console.log("Calling mutations");
+      axios.get("/student/info").then(res => {
+        context.commit("FETCH_DATA", res.data);
+      });
     }
   }
 });
