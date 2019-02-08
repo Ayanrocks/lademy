@@ -1,9 +1,9 @@
 <template>
   <div>
     <Logo color="dark"/>
-    <SideBar :src="getData"/>
+    <SideBar/>
     <div class="container">
-      <div class="row">{{currentUser}}</div>
+      <div class="row"></div>
     </div>
   </div>
 </template>
@@ -22,17 +22,16 @@ export default {
     };
   },
   methods: {
-    ...mapState(["profile"]),
-    ...mapGetters(["getData"]),
+    ...mapGetters(["getProfile"]),
     ...mapActions(["fetchData"])
   },
   components: {
     SideBar,
     Logo
   },
-  mounted() {
-    this.fetchData();
-    this.currentUser = this.getData();
+  async created() {
+    await this.$store.dispatch("fetchData");
+    this.currentUser = this.$store.getters.getProfile;
   }
 };
 </script>

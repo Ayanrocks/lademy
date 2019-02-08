@@ -9,13 +9,11 @@ export default new Vuex.Store({
     profile: {}
   },
   getters: {
-    getData(state) {
-      return state.profile;
-    }
+    getProfile: state => state.profile
   },
   mutations: {
     FETCH_DATA(state, payload) {
-      state.profile = payload;
+      return (state.profile = payload);
     }
   },
   actions: {

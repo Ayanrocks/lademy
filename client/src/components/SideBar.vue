@@ -3,7 +3,7 @@
     <div class="sidebar">
       <div class>
         <div class="sidebar__profilePic">
-          <img :src="src.profilePic" alt>
+          <img alt>
         </div>
         <div class="sidebar__menu">
           <ul class="menu__list">
