@@ -69,8 +69,9 @@ section {
   font-size: 3.8rem;
   font-weight: normal;
 }
-.router-link-active {
-  color: #000;
+.router-link-active,
+.router-link-exact-active {
+  color: #000 !important;
 }
 
 // !Media Queries

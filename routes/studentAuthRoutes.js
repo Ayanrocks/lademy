@@ -315,6 +315,13 @@ module.exports = (app) => {
   app.post('/student/login', passport.authenticate('local'), (req, res) => {
     res.status(200).send({ status: 'success' });
   });
+
+  // Logout Student
+
+  app.get('/student/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+  });
 };
 
 // !!Trash Comments

@@ -3,7 +3,8 @@
  *
  */
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 
 // Student Schema
@@ -21,9 +22,9 @@ const studentSchema = new Schema({
   gender: String,
   lectures: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Lectures"
+    ref: 'Lectures',
   },
-  createdAt: { type: Date, default: Date.now() }
+  createdAt: { type: Date, default: Date.now() },
 });
 
-module.exports = mongoose.model("Students", studentSchema);
+module.exports = mongoose.model('Students', studentSchema);

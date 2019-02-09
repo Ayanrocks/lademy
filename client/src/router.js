@@ -30,9 +30,26 @@ export default new Router({
     },
     {
       path: '/student/dashboard',
-      name: 'dashboard',
+      name: 'student',
       component: () => import('./views/Student.vue'),
-      children: [],
+      children: [
+        {
+          path: '/dashboard',
+          component: () => import('./views/StudentMain/Dashboard.vue'),
+        },
+        {
+          path: '/student/courses',
+          component: () => import('./views/StudentMain/Courses.vue'),
+        },
+        {
+          path: '/student/explore',
+          component: () => import('./views/StudentMain/Explore.vue'),
+        },
+        {
+          path: '/student/profile',
+          component: () => import('./views/StudentMain/Profile.vue'),
+        },
+      ],
     },
   ],
   scrollBehavior() {
