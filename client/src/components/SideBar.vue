@@ -3,7 +3,7 @@
     <div class="sidebar">
       <div class>
         <div class="sidebar__profilePic">
-          <img alt>
+          <img :src="src" alt="Profile Pic">
         </div>
         <div class="sidebar__menu">
           <ul class="menu__list">
@@ -42,6 +42,18 @@ export default {
   background-color: rgb(249, 249, 249);
   width: 50rem;
   padding: 5rem;
+  position: fixed;
+
+  &__profilePic {
+    text-align: center;
+    margin: 15rem 0 -25rem 0;
+    img {
+      border-radius: 40rem;
+      height: 20rem;
+      width: 20rem;
+    }
+  }
+
   &__menu {
     margin: 30rem 0;
     .menu__list {

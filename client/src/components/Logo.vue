@@ -18,6 +18,7 @@ export default {
   left: 10%;
   transform: translate(-10%, -10%);
   font-size: 3.2rem !important;
+  z-index: 99999;
   a {
     font-weight: 500;
     font-family: "Poppins", sans-serif;

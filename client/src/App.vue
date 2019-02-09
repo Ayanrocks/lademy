@@ -8,8 +8,6 @@
 </template>
 
 <script>
-var t1 = new TimelineMax();
-
 export default {
   data() {
     return {
@@ -71,24 +69,8 @@ section {
   font-size: 3.8rem;
   font-weight: normal;
 }
-
-.transition-bars {
-  position: absolute;
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  flex-direction: column;
-  flex-wrap: wrap;
-  z-index: 999;
-  opacity: 0;
-}
-
-.transition-bar {
-  background-color: #000;
-  width: 100%;
-  flex-grow: 3;
-  transform: scaleX(1);
-  transform-origin: left;
+.router-link-active {
+  color: #000;
 }
 
 // !Media Queries

@@ -6,10 +6,10 @@
         <div class="row">
           <h1 class="page__heading">Login</h1>
           <div class="login col-sm">
-            <transition name="slide">
+            <transition name="slide" mode="in-out">
               <div class="error-message" :class="{'bg-danger': error,}" v-if="error">{{msg}}</div>
             </transition>
-            <transition name="slide">
+            <transition name="slide" mode="in-out">
               <div class="success-message" :class="{'bg-success': success,}" v-if="success">{{msg}}</div>
             </transition>
             <form v-if="login__form">
@@ -21,7 +21,7 @@
               </div>
               <router-link
                 to="/student/forgot"
-                style="margin-left: -24rem; font-size: 1.9rem; color: #000"
+                style="margin-left: -14rem; font-size: 1.5rem; color: #000"
               >Forget Password?</router-link>
               <button class="btn submit" @click.prevent="login">
                 <i class="material-icons md-48">keyboard_arrow_right</i>
@@ -161,12 +161,12 @@ export default {
       axios
         .post("/student/verify", formData)
         .then(res => {
-          this.createSuccess("Verification Email Sent");
+          this.createSuccess(res.data.msg);
           return true;
         })
         .catch(e => {
           console.log(e);
-          this.createError("Error sending verification mail");
+          this.createError("Error Sending Verification Mail");
         });
     },
 
@@ -264,9 +264,10 @@ export default {
 }
 
 .page__heading {
-  margin-top: 15rem;
+  margin: 0;
+  margin-top: 14rem;
   letter-spacing: 2px;
-  font-size: 4rem;
+  font-size: 2.5rem;
   font-weight: 300;
   color: #00f;
 }
@@ -279,34 +280,34 @@ export default {
 .error-message,
 .success-message {
   margin-top: 2rem;
-  font-size: 2rem;
+  font-size: 1.9rem;
   background-color: #0f0;
-  margin-left: -20rem;
+  margin-left: -15rem;
   width: 40rem;
   text-align: center;
   color: #fff;
-  border-radius: 10rem;
+  // border-radius: 10rem;
 }
 
 input,
 select {
   display: block;
-  margin: 2rem -25rem;
-  width: 50rem;
+  margin: 2rem -15rem;
+  width: 40rem;
   border-radius: 5rem;
   background-color: #fff;
   border: 1px solid rgb(187, 187, 187);
-  font-size: 2rem;
+  font-size: 1.5rem;
   padding: 1rem;
   color: rgb(179, 179, 179);
 }
 
 label {
   padding: 5rem;
-  width: 50rem;
+  width: 40rem;
   border: 4px dashed #eee;
-  font-size: 2rem;
-  margin: 5rem -25rem -5rem -25rem;
+  font-size: 1.5rem;
+  margin: 5rem -15rem -5rem -15rem;
   text-align: center;
 }
 
@@ -315,22 +316,22 @@ input[type="file"] {
 }
 
 .form__switcher {
-  font-size: 2.5rem;
-  margin: 45rem -25rem 45rem 5rem;
-  width: 50rem;
+  font-size: 2rem;
+  margin: 35rem -15rem 35rem 5rem;
+  width: 40rem;
   cursor: pointer;
   color: #fff;
 }
 
 .submit {
   background-color: #00f;
-  margin-left: 29rem;
+  margin-left: 20rem;
   padding: 1rem;
   border-radius: 100rem;
   width: 6rem;
   color: #fff;
   i {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 }
 

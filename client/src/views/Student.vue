@@ -1,10 +1,8 @@
 <template>
   <div>
     <Logo color="dark"/>
-    <SideBar/>
-    <div class="container">
-      <div class="row"></div>
-    </div>
+    <SideBar :src="currentUser.profilePic"/>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -32,6 +30,7 @@ export default {
   async created() {
     await this.$store.dispatch("fetchData");
     this.currentUser = this.$store.getters.getProfile;
+    console.log(this.currentUser.profilePic);
   }
 };
 </script>
