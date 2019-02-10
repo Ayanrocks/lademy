@@ -260,7 +260,7 @@ module.exports = (app) => {
     if (req.params.emailVerificationToken === emailVerificationToken) {
       request.post(
         {
-          url: 'http://localhost:5000/student/signup',
+          url: 'https://lademy.herokuapp.com/student/signup',
           method: 'POST',
           form: studentDataTemp,
         },
