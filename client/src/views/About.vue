@@ -26,7 +26,7 @@
         <div class="container">
           <div class="row">
             <div class="heading ml-5 col-12">
-              <h1 class="text-center">Here is our Team</h1>
+              <h1 class="text-center">Here is Me</h1>
             </div>
           </div>
           <div class="row">

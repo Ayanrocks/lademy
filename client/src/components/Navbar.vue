@@ -2,7 +2,7 @@
   <nav class="navbar align-middle">
     <div class="container">
       <div class="logo">
-        <router-link to="/" tag="a" exact>Lademy</router-link>
+        <router-link to="/" tag="a">Lademy</router-link>
       </div>
       <div class="buttons pull-right mr-5">
         <button class="student">
@@ -23,7 +23,7 @@ export default {};
 <style lang="scss" scoped>
 .navbar {
   background-color: #000;
-  color: #fff;
+  color: #fff !important;
   position: fixed !important;
   top: 0;
   left: 0;
@@ -47,6 +47,7 @@ nav .logo {
     font-weight: 500;
     font-size: 2.8rem;
     font-family: "Poppins", sans-serif !important;
+    color: #fff !important;
   }
 }
 

@@ -26,10 +26,10 @@ export default {
 }
 
 .dark {
-  color: #000;
+  color: #000 !important;
 }
 
 .white {
-  color: #fff;
+  color: #fff !important;
 }
 </style>

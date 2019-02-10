@@ -70,6 +70,42 @@ function tokenCheck(req, res, next) {
   }
 }
 
+// Function To Send Welcome Mail
+
+function sendWelcomeMail(email, name) {
+  // Mail Template after Signing Up
+  const htmlcontent = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>Welcome To Lademy</title><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300"><style>.footer,h1{text-align:center}*{font-family:Poppins!important}h1{background:-webkit-linear-gradient(right,#6ef3df,#2c68ef);-webkit-background-clip:text;background-clip:text;color:#fff;-webkit-text-fill-color:transparent}.container{margin:0}.row{max-width:900px;background-color:#f5f5f5;padding:50px;margin:0 auto!important;color:#505050;letter-spacing:1.5px}p{font-size:25px!important}h4{font-size:23px!important}li{font-size:22px!important}.footer{margin-left:600px}@media only screen and (max-width:855px){.footer{margin:0}}</style></head><body><div class="container"><div class="row"><div class="logo"><h1>Lademy.</h1></div><h2>Hey There! We Welcome are glad to have you with Us.</h2><p>Thanks for signing up. We can\'t wait to get you Started</p><p>Here are some things you can do to get started.</p><ol><li>Goto the <a href="https://lademy.herokuapp.com/student/login">Login</a> page.</li><li>Then Browse our huge list of videos and courses at <a href="https://lademy.herokuapp.com/student/explore">Explore</a> Section</li><li>Select your favourite video to learn.</li></ol><p>That\'s it!</p><h4>Happy Learning!!!</h4><div class="footer"><p>Your Regards</p><h3>Ayan Banerjee.</h3></div></div></div></body></html>';
+  const options = {
+    method: 'POST',
+    url: 'https://api.mailjet.com/v3.1/send',
+    headers: {
+      Authorization: `Basic ${keys.mailjetAPIKey}`,
+      'content-type': 'application/json',
+    },
+    body: {
+      Messages: [
+        {
+          From: {
+            Email: 'no-reply-lademy@orilliance.com',
+            Name: 'Lademy',
+          },
+          To: [{ Email: email, Name: name }],
+          Subject: 'Welcome To Lademy',
+          TextPart: htmlcontent,
+          HTMLPart: htmlcontent,
+        },
+      ],
+    },
+    json: true,
+  };
+  request.post(options, (err) => {
+    if (!err) {
+      return true;
+    }
+    return false;
+  });
+}
+
 // **** Function to Signup Students ****
 
 function signup(req, res, hash, salt) {
@@ -77,8 +113,12 @@ function signup(req, res, hash, salt) {
   const studentID = uuid();
   const imageExtension = req.body.profilePic.split('.').pop();
   const newFile = `${studentID}.${imageExtension}`;
+
+  // file Rename
   fs.renameSync(req.body.profilePic, profilePicPath + newFile);
+  // Aws Profile Location
   let awsLocation = '';
+
   fs.readFile(profilePicPath + newFile, (err, file) => {
     if (err) throw err;
     const params = {
@@ -87,11 +127,10 @@ function signup(req, res, hash, salt) {
       Key: newFile,
       Body: file,
     };
+    // Uploading to AWS S3 Storage
     S3.upload(params, (s3Err, data) => {
       if (s3Err) throw s3Err;
       awsLocation = data.Location;
-      console.log(`upload ${awsLocation}`);
-      console.log(`aws: ${awsLocation}`);
 
       const studentDetails = {
         studentID,
@@ -110,10 +149,10 @@ function signup(req, res, hash, salt) {
 
       Student.create(studentDetails, (err) => {
         if (!err) {
+          sendWelcomeMail(req.body.email, req.body.name);
           res.status(200).send('Saved sucessfully');
           fs.unlinkSync(profilePicPath + newFile);
         } else {
-          console.log(err);
           res.status(500).send({ Error: 'Error saving to database' });
         }
       });
