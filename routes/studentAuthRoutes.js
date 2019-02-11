@@ -353,12 +353,12 @@ module.exports = (app) => {
   });
 
   app.get('/student/info', (req, res) => {
+    console.log(req.user);
     res.send(req.user);
   });
 
   // Login the student
   app.post('/student/login', passport.authenticate('local'), (req, res) => {
-    console.log(req.user);
     res.status(200).send({ status: 'success' });
   });
 
