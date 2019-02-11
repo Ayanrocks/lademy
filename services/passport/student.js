@@ -24,20 +24,12 @@ passport.deserializeUser((id, done) => {
 });
 
 function validPassword(password, hashedPassword) {
-  bcrypt.compare(password, hashedPassword).then((res) => {
-    console.log(res);
-    if (res) {
-      return true;
-    }
-    return false;
-  });
-  return false;
+  bcrypt.compare(password, hashedPassword).then(res => res);
 }
 
 passport.use(
   new LocalStrategy((username, password, done) => {
     Students.findOne({ username }, (err, student) => {
-      console.log(student, password);
       if (err) {
         return done(err);
       }
