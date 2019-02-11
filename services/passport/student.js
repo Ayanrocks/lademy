@@ -30,10 +30,13 @@ function validPassword(password, hashedPassword) {
 passport.use(
   new LocalStrategy((username, password, done) => {
     Students.findOne({ username }, (err, student) => {
+      console.log(student);
       if (err) {
+        console.log('err');
         return done(err);
       }
       if (!student) {
+        console.log('nooo');
         return done(null, false, { message: 'User not Found' });
       }
       if (!validPassword(password, student.password)) {
