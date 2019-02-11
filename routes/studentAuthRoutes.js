@@ -277,7 +277,7 @@ module.exports = (app) => {
           }
           studentDataTemp = {};
           emailVerificationToken = '';
-          res.status(200).redirect('/student/login');
+          res.status(200).redirect('/student');
         },
       );
     } else {
