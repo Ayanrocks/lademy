@@ -7,7 +7,7 @@ module.exports = {
   facebookClientSecret: process.env.FACEBOOK_CLIENT_SECRET,
   mailjetAPIKey: process.env.MAILJET_API_KEY,
   awsConfig: {
-    secretAcessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     accessKeyId: process.env.AWS_ACESS_KEY_ID,
     region: 'us-east-2',
   },
