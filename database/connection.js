@@ -3,10 +3,9 @@
  *
  */
 
-const mongoose = require("mongoose"),
-  keys = require("../config/keys.js");
+const mongoose = require('mongoose');
 
-mongoose.connect(
-  keys.MongoURI,
-  { useNewUrlParser: true }
-);
+
+const keys = require('../config/keys.js');
+
+mongoose.connect(keys.MongoURI, { useNewUrlParser: true });
