@@ -39,6 +39,7 @@ passport.use(
       if (!validPassword(password, student.password)) {
         return done(null, false, { message: 'Incorrect Password' });
       }
+      console.log('Sucess', student);
       return done(null, student);
     });
   }),
