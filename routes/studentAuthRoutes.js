@@ -358,6 +358,7 @@ module.exports = (app) => {
 
   // Login the student
   app.post('/student/login', passport.authenticate('local'), (req, res) => {
+    console.log(req.user);
     res.status(200).send({ status: 'success' });
   });
 
