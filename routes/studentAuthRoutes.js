@@ -204,6 +204,7 @@ module.exports = (app) => {
     }
 
     Student.findOne({ username: req.body.username, email: req.body.email }, (err, student) => {
+      console.log('Founding');
       if (!err && student) res.send({ msg: 'Username or Email Exists' });
       else {
         studentDataTemp = {
@@ -243,6 +244,7 @@ module.exports = (app) => {
         };
         request.post(options, (err) => {
           if (!err) {
+            console.log('Mail Sent');
             setTimeout(() => {
               emailVerificationToken = '';
               studentDataTemp = {};
