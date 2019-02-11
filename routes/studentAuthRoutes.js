@@ -259,6 +259,7 @@ module.exports = (app) => {
   });
 
   app.get('/student/verification/:emailVerificationToken', (req, res) => {
+    console.log(emailVerificationToken);
     if (req.params.emailVerificationToken === emailVerificationToken) {
       request.post(
         {
