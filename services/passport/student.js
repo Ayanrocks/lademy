@@ -24,7 +24,7 @@ passport.deserializeUser((id, done) => {
 });
 
 function validPassword(password, hashedPassword) {
-  bcrypt.compare(password, hashedPassword).then(res => res);
+  return bcrypt.compareSync(password, hashedPassword);
 }
 
 passport.use(
