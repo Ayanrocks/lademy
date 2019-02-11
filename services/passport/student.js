@@ -40,6 +40,7 @@ passport.use(
         return done(null, false, { message: 'User not Found' });
       }
       if (!validPassword(password, student.password)) {
+        console.log('nope');
         return done(null, false, { message: 'Incorrect Password' });
       }
       console.log('Sucess', student);
