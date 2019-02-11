@@ -28,6 +28,7 @@ function validPassword(password, hashedPassword) {
     if (res) {
       return true;
     }
+    return false;
   });
   return false;
 }
@@ -35,6 +36,7 @@ function validPassword(password, hashedPassword) {
 passport.use(
   new LocalStrategy((username, password, done) => {
     Students.findOne({ username }, (err, student) => {
+      console.log(student);
       if (err) {
         return done(err);
       }
