@@ -353,7 +353,6 @@ module.exports = (app) => {
   });
 
   app.get('/student/info', (req, res) => {
-    console.log(req.user);
     res.send(req.user);
   });
 

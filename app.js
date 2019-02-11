@@ -37,7 +37,7 @@ app.use(
     secret: keys.sessionSecret,
     resave: false,
     saveUninitialized: false,
-    store: new RedisStore(),
+    store: new RedisStore({ host: '127.0.0.1', port: 6380, prefix: 'chs-sess' }),
   }),
 );
 app.use(passport.initialize());
