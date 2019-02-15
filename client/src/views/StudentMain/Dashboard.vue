@@ -24,7 +24,10 @@ export default {
       firstTime: true
     };
   },
-  components: {}
+  components: {},
+  created() {
+    
+  },
 };
 </script>
 

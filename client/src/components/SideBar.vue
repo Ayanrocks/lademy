@@ -3,7 +3,7 @@
     <div class="sidebar">
       <div class>
         <div class="sidebar__profilePic">
-          <img :src="src" alt="Profile Pic">
+          <img :src="profilePic" alt="Profile Pic">
         </div>
         <div class="sidebar__menu">
           <ul class="menu__list">
@@ -30,8 +30,20 @@
 </template>
 
 <script>
+import mapGetters from "vuex";
+
 export default {
-  props: ["src"]
+  data() {
+    return {
+      profilePic: ""
+    };
+  },
+  methods: {
+    ...mapGetters["getProfilePic"]
+  },
+  created() {
+    this.profilePic = this.$store.getters.getProfilePic;
+  }
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Logo style="position: fixed" color="dark"/>
-    <SideBar :src="currentUser.profilePic"/>
+    <SideBar/>
     <router-view></router-view>
     <Logout/>
   </div>

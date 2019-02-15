@@ -1,3 +1,8 @@
+/*
+* VUEX FILE
+*
+*/
+
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
@@ -10,6 +15,7 @@ export default new Vuex.Store({
   },
   getters: {
     getProfile: state => state.profile,
+    getProfilePic: state => state.profile.profilePic,
   },
   mutations: {
     FETCH_DATA(state, payload) {
