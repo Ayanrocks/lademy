@@ -8,4 +8,4 @@ const mongoose = require('mongoose');
 
 const keys = require('../config/keys.js');
 
-mongoose.connect(keys.MongoURI, { useNewUrlParser: true });
+mongoose.connect(keys.MongoURI, { useNewUrlParser: true, useUnifiedTopology: true });

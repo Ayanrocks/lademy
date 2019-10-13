@@ -49,11 +49,9 @@ app.use(express.static(`${__dirname}/client/dist`));
 // Routes
 require('./routes/studentAuthRoutes')(app);
 
-if (process.env.NODE_ENV === 'production') {
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-  });
-}
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
 
 // Listening
 const PORT = process.env.PORT || 5000;

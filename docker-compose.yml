@@ -1,0 +1,31 @@
+version: "3"
+
+networks: 
+  microservice: 
+    driver: bridge
+
+
+services:
+  # webapp
+  web:
+    build: .
+    deploy:
+      replicas: 3
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    links:
+      - redis
+    networks: 
+      - microservice
+  
+
+  # redis
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks: 
+      - microservice
+  
